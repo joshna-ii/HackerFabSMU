@@ -1,0 +1,184 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<meta content="text/html; charset=ISO-8859-1" http-equiv="content-type">
+<title>
+Getting started with the Analog Discovery
+</title>
+<link rel="stylesheet" href="style.css" type="text/css" media="all" /> 
+</head>
+<body>
+<h1>Getting started with the Analog Discovery</h1>
+
+<h2>1. Hardware</h2>
+<p>
+To set up the Analog Discovery:</p>
+<ol>
+<li>First install the Digilent WaveForms software on your PC. See <a href="main.html#main.installer">Installer Details</a> for more information. </li>
+<li>Connect the Analog Discovery to your PC using a USB cable. </li>
+</ol>
+<p>
+<img src="images/start2.board.png"></p>
+<p>
+Pin-out:</p>
+<p><img src="images/start2.pinout.png"></p>
+<table border="1">
+<tr>
+<th>&nbsp;</th>
+<th>Recommended operating conditions</th>
+<th>Absolute maximum ratings</th>
+</tr>
+<tr>
+<th align="left">Oscilloscope (1+,1-,2+,2-)</th>
+<td>&plusmn;50 V differential, &plusmn;25 V single ended</td>
+<td>&plusmn;50 V </td>
+</tr>
+<tr>
+<th align="left">Wavegen (W1,W2)</th>
+<td>&plusmn;5 V, 10 mA</td>
+<td>&plusmn;5.8 V, 50 mA</td>
+</tr>
+<tr>
+<th align="left">Power Supplies (V+,V-)</th>
+<td>+5 V, -5 V, 100 mA</td>
+<td>+5.2 V, -5.2 V, 200 mA</td>
+</tr>
+<tr>
+<th align="left">Triggers, Digital IO (T1,T2,0,1,2,...)</th>
+<td>LVCMOS 3.3 V, 4 mA</td>
+<td>&plusmn; 20 V</td>
+</tr>
+</table>
+<p>For more information visit the <a target="_blank" href="https://digilent.com/reference/test-and-measurement/analog-discovery/start">reference page</a>.</p>
+<p>&nbsp;</p>
+<hr>
+<h2>2. WaveForms Software</h2>
+<p>
+See <a href="main.html#main.installer">Installer Details</a> for information on installing WaveForms.</p>
+<p>
+See <a href="main.html">WaveForms</a> for information on using the 
+software.</p>
+<p>&nbsp;
+</p>
+<hr>
+<h2><a name="start2.trouble" id="start2.trouble"></a>3. Troubleshooting</h2>
+<p>In case you receive the error message &quot;Communication with device failed&quot; 
+or &quot;Device configuration failed&quot;:</p>
+<ul>
+<li>Remove all the attached components and wires from the Analog Discovery.</li>
+<li>Verify that the USB cable is attached correctly.</li>
+<li>Reconnect WaveForms to the Analog Discovery and, without opening any instruments, verify that the WaveForms system monitor is displaying voltage and current levels.</li>
+</ul>
+<p>The Analog Discovery's system monitor displays the voltage, current, and temperature. In the main window, click the button in the status bar to show this information.</p>
+<p>
+<img src="images/start.discovery.system.monitor.png"></p>
+<p>When no instrument is running, the device power consumption is around 2 watts (400mA). Depending on the usage, consumption can increase subject to the following limitations:</p>
+<ul>
+<li>At 500 mA, the application interface displays a warning because this is the maximum allowed by the USB specification.</li>
+<li>At 1 A, the Analog Discovery device stops in order to prevent damage, and 
+the application displays the &ldquo;Communication with the device failed&rdquo; error message.</li>
+<li>See <a href="#start2.power">Power Supplies</a> for information regarding limitations.</li>
+</ul>
+<p>If you receive the previously mentioned error message(s), or if the voltage is less than 4.5 V, try the following options:</p>
+<ul>
+<li>Try to use a different USB cable and computer plug.
+<li>Use the USB plug on the back of the PC, not the one on the front panel.
+<li>Use a short cable, do not use a long cable or cable extender.
+<li>Use a powered USB-hub, avoid using an unpowered hub.
+<li>Use a USB-Y cable to load power from two plugs.
+<li>Reduce the current consumptions on AWG, V+, and/or V-.</li>
+</ul>
+<p>&nbsp;</p>
+
+<hr>
+
+<h2><a name="start2.oscilloscope" id="start2.oscilloscope"></a>4. Oscilloscope</h2>
+<p>
+The Analog Discovery has two differential oscilloscope input channels.
+</p>
+<p><b>Specifications:</b></p>
+<ul>
+<li>The 0.5dB input bandwidth is 10 MHz.</li>
+<li>The positive and negative inputs have an impedance to ground of 1 MOhm in parallel with 24 pF.</li>
+<li>The ADC is 14 bits and 100 MSps, Analog Devices AD9648.</li>
+<li>The absolute maximum input voltage is &plusmn;50 V.</li>
+<li>The buffer can be up to 16 KiS (default is 8 KiS) on two channels.</li>
+<li>The inputs have two gain stages, with 3 mV and 300 uV resolution. See the table below:
+<br>
+<table border="1">
+<tr>
+<td>&nbsp;</td>
+<td><b>Low gain</b></td>
+<td><b>High gain</b></td>
+</tr>
+<tr>
+<td><b>Range</b></td>
+<td >&nbsp;&gt; 500 mV/div</td>
+<td >&nbsp;&lt;= 500 mV/div&nbsp;</td>
+</tr>
+<tr>
+<td ><b>Differential input voltage</b></td>
+<td > &nbsp;N/A</td>
+<td >&nbsp;-5 V to +5 V</td>
+</tr>
+<tr>
+<td><b>Common mode input voltage</b></td>
+<td> &nbsp;N/A</td>
+<td>&nbsp;-20 V to +5 V</td>
+</tr>
+<tr>
+<td><b>Positive and negative input voltage to GND</b></td>
+<td>&nbsp;&plusmn;25 V</td>
+<td> &nbsp;N/A</td>
+</tr>
+</table></li>
+<li>For more information visit the <a target="_blank" href="https://digilent.com/reference/test-and-measurement/analog-discovery/reference-manual">resource center</a></li>
+</ul>
+<p>&nbsp;</p>
+<hr>
+
+<h2>5. Arbitrary Waveform Generator</h2>
+<p>The Analog Discovery is equipped with two Arbitrary Waveform Generators channels. Verify the voltage on the Waveform Generator channels before connecting it to a circuit.</p>
+<p><b>Specifications:</b></p> 
+<ul>
+<li>The 0.5dB output bandwidth is 4 MHz.</li>
+<li>The output current is 10 mA.</li>
+<li>The DAC is 14 bits and 100 MSps, Analog Devices AD9717.</li>
+<li>The maximum output is 10 Vp-p, between -5 V and +5 V.</li>
+<li>The resolution is 0.7 mV for amplitudes above 1 V, and 0.18 mV for amplitudes of 1 V and lower. </li>
+<li>When a channel is closed or disabled, the output is not in high impedance but close to zero volts.</li>
+<li>The carrier buffer can be up to 16 KiS (default is 4 KiS). The AM and FM buffer is 2 KiS on two channels.</li>
+<li>The stereo audio jack outputs the AWG signals. AWG 1 outputs on the left channel and AWG 2  on the right channel.</li>
+<li>For more information visit the <a target="_blank" href="https://digilent.com/reference/test-and-measurement/analog-discovery/reference-manual">resource center</a></li>
+</ul>
+
+<p>&nbsp;</p>
+<hr>
+<h2><a name="start2.power" id="start2.power"></a>6. Power Supplies</h2>
+<p>The Analog Discovery has two fixed power supplies.<br>
+NOTE: When the power supplies need to drive high capacitive loads, start the supply before connecting the load. 
+</p>
+<p><b>Specifications:</b></p> 
+<ul>
+<li>The positive power supply voltage is 5 V.
+<li>The negative power supply voltage is -5 V.
+<li>The maximum power supply current (the sum of the negative and positive supplies) is 100mA.</ul>
+<p>&nbsp;</p>
+<hr>
+<h2>7. Digital I/O</h2>
+<p>The Analog Discovery has 16 digital I/O (DIO 0-15) and 2 trigger I/O pins.</p>
+<p><strong>Specifications</strong>:</p>
+<ul>
+<li>The digital pins are supplied at 3.3 V, LVCMOS3V3 standard.
+<li>The pins have a 4 mA drive strength, slow slew rate Xilinx Spartan6-1L output.
+<li>The pins have a 220 Ohm series PTCs (PRG18BB221MB1RB) and diodes (DB3S406F) to GND and 3.3V, having protection between -20 V and +20 V.
+<li>The pins can output push-pull (PP), open-drain (OD), open-source (OS), and three-state (TS) signals. For OD and OS signals, use external pull-up or pull-down resistors.
+<li>The generator/analyzer frequency is 100 MHz. 
+<li>The Logic Analyzer buffer can be up to 16 KiS (default is 4 KiS). 
+<li>The Pattern Generator custom buffer can be up to 16 KiS (default is 1 KiS). 
+</ul>
+
+<p>&nbsp;</p>
+
+</body>
+</html>

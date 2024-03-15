@@ -1,0 +1,154 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<meta content="text/html; charset=ISO-8859-1" http-equiv="content-type">
+<title>Curve Tracer</title>
+<link rel="stylesheet" href="style.css" type="text/css" media="all" /> 
+</head>
+<body>
+<h1>Curve Tracer</h1>
+<p>The Curve Tracer Instrument is used to analyze characteristics of discrete semiconductors such as diodes and transistors.</p>
+<p>The interface supports devices with two waveform generator channels and two differential oscilloscope inputs (Analog Discovery 1 and 2) or four single ended inputs (Electronics Explorer, ADP3450).<br>
+When used with the Analog Discovery Transistor Tester Adapter, built in relays are used to perform specific measurements.</p>
+<p><img src="images/tracer.png"></p>
+<p>When the instrument is started, it takes control over the Scope and Wavegen device resources and other instruments using these are stopped and their status shows Busy. With the Transistor Tester Adapter the Supplies and Static IO resources will be also used.</p>
+<p>&nbsp;</p>
+
+<h2><a name="tracer.menu" id="tracer.menu"></a>
+1. Menu</h2>
+<p>See <a href="main.html#main.menus">Menu</a> in Common Interfaces.</p>
+
+<p><img src="images/tracer.menu.view.png"></p>
+<ul>
+<li><b>XY:</b> adds a new <a href="#tracer.view.xy">XY</a> view.</li>
+<li><b>XYZ 3D:</b> adds a new <a href="#tracer.view.xyz">XYZ 3D</a> view.</li>
+<!-- <li><b>XYZ 3D Surface:</b> adds a new <a href="#tracer.view.xyz">XYZ 3D Surface</a> view.</li> -->
+<li><b>Time:</b> opens/closes the <a href="#tracer.view.time">Time</a> view.</li>
+</ul>
+<p>&nbsp;</p>
+
+<h2><a name="tracer.control" id="tracer.control"></a>
+2. Control</h2>
+<p>The control area lets you adjust the settings for the curve tracer. <br>
+</p>
+<p><img src="images/tracer.control.png"></p>
+<ul>
+<li><b>Single</b> button: starts a single analysis.</li>
+<li><b>Run/Stop</b> button: starts repeated analysis or stops.</li>
+<li>Select <b>Adapter</b> when using Transistor Tester Adapter with Analog Discovery, otherwise select <b>No Adapter</b> and follow the required connections for measurements.</li>
+<li><b>Type</b>: lets you select the semiconductor type: Diode, NPN or PNP transistor, N or P channel FET.</li>
+<li><b>Measure</b>: lets you select the performed measurement: I/V, I/V-mA, I/V-uA; Ic/Vce(Ib), Vce/Ic(Ib), Ic/Vce(Vbe), Ib/Vce, Ic/Vbe, Vbe/Ic, Ib/Vbe, Ic/Ib (hFE); Id/Vds, Id/Vgs, Vds/Vgs(Vd)</li>
+<li>When using Adapter <i>additional measurements</i> can be checked, like for "Ic/Vce" it will also perform "Ib/Vbe". This will disable the repeated run.</li>
+<li>The options contain the following:
+<ul>
+<li><b>Rate:</b> lets you specify the sample rate.</li>
+<li><b>Sweep:</b> lets you select Auto or Multiple, to force performing the slopes in separate captures.</li>
+<li><b>Emitter:</b> lets you specify the emitter voltage, virtual ground. With Adapter this is automatically set to +/-5V.</li>
+<li><b>Probe:</b> lets you specify the oscilloscope probe impedance. It is automatically set based on the connected device.</li>
+<li><b>Calibrate:</b> lets you calibrate the output and input offset errors.</li>
+</ul>
+</li>
+
+<li><b>Vra</b>/<b>Vrc</b>/<b>Vrd</b>: lets you specify the start and stop voltage applied on the resistor for diode anode, transistor collector or drain.</li>
+<li><b>Vrb</b>/<b>Vrg</b>: lets you specify the start and stop voltage applied on the resistor for transistor base or gate.</li>
+<li><b>Slope</b>: lets you select which channel will use step or slope. This is automatically adjusted based on the selected measurement.
+<li><b>Steps</b>/<b>Samples:</b> lets you specify the number of steps and slope samples.</li>
+<li><b>Step:</b> lets you specify the voltage step.</li>
+<li><b>Ra</b>/<b>Rc</b>/<b>Rd</b>, <b>Rb</b>/<b>Rg</b>: lets you specify the (anode/collector/drain, base/gate) resistor values when used without Adapter.</li>
+<li>The circuit drawing shows the connections. When used without adapter the required Wavegen and Scope connections are show at the end of the control toolbar.<br>
+<img src="images/tracer.ad.png"> <img src="images/tracer.dif2.png"> <img src="images/tracer.sgl4.png"> <img src="images/tracer.pn.png"></li>
+</ul>
+<p>&nbsp;</p>
+
+<h2><a name="tracer.trace" id="tracer.trace"></a>
+3. Trace/Reference</h2>
+The current analysis is performed in the Trace and this can be saved as Reference for comparison.<br>
+The toggle button on the left enables the auto-hide of the toolbar. The button on the right changes the width in four steps.<br>
+The check-box shows or hides the respective trace in the plots.
+<p><img src="images/tracer.traces.png"><img src="images/tracer.traces2.png"></p>
+The trace options contains the following:
+<ul>
+<li><b>Color:</b> sets the trace waveform color.</li>
+<li><b>Export:</b> opens export window with the respective trace data, see <a href="main.html#main.export">Export</a> in Common Interfaces.</li>
+<li><b>Name:</b> specifies the trace name.</li>
+<li><b>Import:</b> lets you import data from file.</li>
+<li><b>Update:</b> updates the Reference trace with the Trace.</li>
+<li><b>Remove:</b> removes the Reference trace.</li>
+</ul>
+<br>
+
+<h2><a name="tracer.view" id="tracer.view"></a>
+4. Views</h2>
+<p>The main plot is an XY view showing the status of the capture.<br>
+It lets you toggle the Auto scaling, which adjusts the axes based on data on new capture or channel selection.<br>
+The X and Y channels can be selected and manual set the start and stop values of the axes. The axis can be adjusted also with mouse drag and scroll on the left and bottom sides.</p>
+<p>See <a href="main.html#main.plots">Plots</a> in Common Interfaces and Tracer specific options:
+<ul>
+<li><b>Auto XY</b>: when checked the X and Y channels are adjusted based on the Measurement selection.</li>
+<li><b>Step labels</b>: check to show labels at the end of each step curve.</li>
+</ul>
+<p><img src="images/tracer.xy.png"></p>
+<p>&nbsp;</p>
+
+<h3><a name="tracer.quick" id="tracer.quick"></a>
+4.1 Quick Measure</h3>
+<p>The measurements can be used as Free position or finding the closest Point on the curve. See <a href="main.html#main.quick">Quick Measure</a> in Common Interfaces.</p>
+<p>&nbsp;</p>
+
+<h3><a name="tracer.cursors" id="tracer.cursors"></a>
+4.2 Cursors</h3>
+<p>X cursors can be added from the bottom-left corner and Y cursors from the top-right corner. See <a href="main.html#main.cursors">Cursors</a> in Common interfaces.</p>
+<p>&nbsp;</p>
+
+<h3><a name="tracer.view.xy" id="tracer.view.xy"></a>
+4.3 XY</h3>
+<p>Additional XY views similar to the main XY plot can be added from the View menu.</p>
+<p><img src="images/tracer.view.xy.png"></p>
+<p>&nbsp;</p>
+
+<h3><a name="tracer.view.xyz" id="tracer.view.xyz"></a>
+4.4 XYZ 3D Points/Surface</h3>
+<p>The XYZ 3D views allows you to plot 3D scatter graph or surface. It is supported under 64 bit Windows and MacOS builds.</p>
+<p>The source trace, the channels for X, Y and Z axis can be selected on the top side.<br>
+The Auto scale is by default checked which will adjust the scales on new capture, source or channel change. The Scale for each axis can be adjusted manually in the dropdown and on the sides of the view.</p>
+The gear dropdown menu contains options:
+<ul> 
+<li><b>Camera</b>: lets you select view position presets.<br>
+Holding the right mouse button on the graph and moving the mouse will rotate the view.
+<li><b>Gradient</b>: lets you select the color gradient for surface or uniform color.
+<li><b>Color</b>: opens a dialog to select color for samples.
+<li><b>Theme</b>: lets you select background, grid, label color.
+<li><b>Points</b>: lets you select sample point representation.
+<li><b>Shadow</b>: lets you select the shadow quality or disable it.
+<li><b>Grid</b>: check to display the grid.
+<li><b>Background</b>: check to display the background for shadow projection.
+<li><b>Flat</b>: check to display the background for shadow projection.
+<li><b>Pan/Tilt/Zoom</b>: lets you adjusts the view perspective.
+</ul>
+
+<p><img src="images/tracer.view.xyzp.png"></p>
+<!-- <p><img src="images/tracer.view.xyzs.png"></p> -->
+<p>&nbsp;</p>
+
+
+<h3><a name="tracer.view.time" id="tracer.view.time"></a>
+4.5 Time</h3>
+<p>The time plot shows the Trace data in time domain.</p>
+<p><img src="images/tracer.view.time.png"></p>
+<p>&nbsp;</p>
+
+
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+</body>
+</html>

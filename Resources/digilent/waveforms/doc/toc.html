@@ -1,0 +1,625 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+  <head>
+   <!--BORDER=0 cellspacing="0" cellpadding="0"-->
+    <style type="text/css">
+        img{border:none}
+        table{border:none; border-collapse:collapse}
+        td{padding:0}
+        a:visited
+        {color:blue}
+        a:link
+        {color:blue}
+    </style>
+    <meta content="text/html; charset=ISO-8859-1" http-equiv="content-type">
+    <title>
+      Digilent WaveForms
+    </title>
+    <link rel="stylesheet" href="style.css" type="text/css" media="all" /> 
+  </head>
+  <body>
+    <SCRIPT LANGUAGE="JavaScript">
+    function Toggle(node){
+        // Unfold the branch if it isn't visible
+        if (node.nextSibling.nextSibling.style.display == 'none'){
+            // Change the image (if there is an image)
+            if (node.children.length > 0){
+                if (node.children.item(0).tagName == "IMG"){
+                    node.children.item(0).src = "images/minus.gif";
+                }
+            }
+            node.nextSibling.nextSibling.style.display = '';
+        }else{// Collapse the branch if it IS visible
+            // Change the image (if there is an image)
+            if (node.children.length > 0){
+                if (node.children.item(0).tagName == "IMG"){
+                    node.children.item(0).src = "images/plus.gif";
+                }
+            }
+            node.nextSibling.nextSibling.style.display = 'none';
+        }
+    }
+    function CloseAll2(node){
+        if(node.tagName == "TABLE"){
+            for(var i = 0; i < node.rows.length; i++){
+                if(node.rows[i].cells.length >= 2) {
+                    if(node.rows[i].cells[1].children.length == 3){
+                        CloseAll2(node.rows[i].cells[1].children.item(2));
+                    }
+                    if(node.rows[i].cells[1].children.length == 2){
+                        node.rows[i].cells[1].children.item(0).style.fontWeight = 'normal';
+                    }
+                }
+                
+            }
+        }else if(node.tagName == "DIV"){
+            if(node.parentNode.children.item(0).children.length >= 1 && 
+                node.parentNode.children.item(0).children.item(0).tagName == "IMG"){
+                node.style.display = 'none';
+                node.parentNode.children.item(0).children.item(0).src = "images/plus.gif";
+                node.parentNode.children.item(1).style.fontWeight = 'normal';
+            }
+            for(var i = 0; i < node.children.length; i++){
+                CloseAll2(node.children.item(i));
+            }
+        }
+    }
+    function CloseAll(){
+        var node = document.getElementById("toc");
+        for(var i = 0; i < node.rows.length; i++){
+            var v = node.rows[i].cells[1].children.length;
+            for(var c = 0; c < v; c++){
+                CloseAll2(node.rows[i].cells[1].children.item(c));
+            }
+        }
+    }
+    function OpenNode(node){
+        if(node.parentNode.id != "toc"){
+            OpenNode(node.parentNode);
+        }
+        if(node.children.length == 3 && node.children.item(0).children.item(0) && node.children.item(0).children.item(0).tagName == "IMG"){
+            node.children.item(0).children.item(0).src = "images/minus.gif";
+            node.children.item(1).style.fontWeight = 'bold';
+            node.children.item(2).style.display = '';
+        }
+        if(node.children.length == 2){
+            node.children.item(0).style.fontWeight = 'bold';
+        }
+    }    
+    function Toggle2(node){
+        CloseAll();
+        OpenNode(node.parentNode);
+        document.getElementById("showtoc").href = node.href;
+    }
+    function Find(){
+        var toc = document.getElementById("toc");
+        var k = document.getElementById("keys");
+        var nf = document.getElementById("nothing");
+        var lblfind = document.getElementById("lblfind");
+        var text = document.getElementById("find").value;
+        var rgtext = text.split(" ");
+        if(text == ""){
+            toc.style.display = '';
+            k.style.display = 'none';
+            nf.style.display = 'none';
+            lblfind.style.display = 'none';
+        }else{
+            toc.style.display = 'none';
+            k.style.display = '';
+            k = k.children;
+            lblfind.style.display = '';
+            var any = false;
+			var c = 0;
+			k[k.length-1].style.display = 'none';
+            for(var i= 0; i < k.length-1; i++){
+                if(k[i].tagName == "LI"){
+                    var rgall = true;
+                    for(var j = 0; j < rgtext.length; j++){
+                        if(k[i].children.item(0).outerText.toLowerCase().indexOf(rgtext[j].toLowerCase()) < 0){
+                            rgall = false;
+                        }
+                    }
+                    if(rgall){
+                        k[i].style.display = '';
+                        any = true;
+						c++;
+                    }else{
+                        k[i].style.display = 'none';
+                    }
+                }
+				if(c > 17) {
+					k[k.length-1].style.display = '';
+					break;
+				}
+            }
+            if(any){
+                nf.style.display = 'none';
+            }else{
+                nf.style.display = '';
+            }
+        }
+    }
+    function ShowTOC(){
+        var f = document.getElementById("find");
+        f.value = "";
+        Find();
+    }
+    </SCRIPT>
+
+    <img src="images/WaveForms.png" alt="Digilent WaveForms" width="225" height="150"><br><br>
+    <a id="showtoc" onclick="ShowTOC()" target="main" href="main.html">Show Table of Contents</a><br><br>
+    <form>Find: <input id="find" type="text" name="find" onkeyup="Find()" /><br /></form>
+    
+    <TABLE id="toc">
+       <TR><TD WIDTH=0></TD><TD>
+            <TABLE><TR><TD WIDTH=0></TD><TD><A onClick="Toggle(this)"><IMG SRC="images/plus.gif"></A><A onClick="Toggle2(this)" target="main" href="main.html" style='font-weight:bold'>WaveForms</A><DIV style='display:none'>
+                <TABLE><TR><TD WIDTH=10></TD><TD><A onClick="Toggle(this)"><IMG SRC="images/plus.gif"></A><A onClick="Toggle2(this)" target="main" href="main.html#main.start" >Getting Started</A><DIV style='display:none'>
+                    <TABLE><TR><TD WIDTH=10></TD><TD><A onClick="Toggle2(this)" target="main" href="main.html#main.trouble"><IMG SRC="images/link.gif">Troubleshoot </A><DIV></DIV></TD></TR></TABLE>
+                    <TABLE><TR><TD WIDTH=10></TD><TD><A onClick="Toggle2(this)" target="main" href="main.html#main.instrument"><IMG SRC="images/link.gif">Instruments</A><DIV></DIV></TD></TR></TABLE>
+                    <TABLE><TR><TD WIDTH=10></TD><TD><A onClick="Toggle2(this)" target="main" href="main.html#main.workspace"><IMG SRC="images/lastlink.gif">Workspace-Project</A><DIV></DIV></TD></TR></TABLE>
+                </DIV></TD></TR></TABLE>
+                <TABLE><TR><TD WIDTH=10></TD><TD><A onClick="Toggle2(this)" target="main" href="main.html#main.options"><IMG SRC="images/link.gif">Options</A><DIV></DIV></TD></TR></TABLE>
+                <TABLE><TR><TD WIDTH=10></TD><TD><A onClick="Toggle2(this)" target="main" href="main.html#main.shortcuts"><IMG SRC="images/link.gif">Shortcuts</A><DIV></DIV></TD></TR></TABLE>
+                <TABLE><TR><TD WIDTH=10></TD><TD><A onClick="Toggle2(this)" target="main" href="main.html#main.device"><IMG SRC="images/link.gif">Device Manager</A><DIV></DIV></TD></TR></TABLE>
+ 
+                <TABLE><TR><TD WIDTH=10></TD><TD><A onClick="Toggle(this)"><IMG SRC="images/plus.gif"></A><A onClick="Toggle2(this)" target="main" href="main.html#main.calib">Device Calibration</A><DIV style='display:none'>
+                    <TABLE><TR><TD WIDTH=10></TD><TD><A onClick="Toggle2(this)" target="main" href="main.html#main.calib.probe"><IMG SRC="images/lastlink.gif">Probe Compensation</A><DIV></DIV></TD></TR></TABLE>
+                </DIV></TD></TR></TABLE>
+                <TABLE><TR><TD WIDTH=10></TD><TD><A onClick="Toggle(this)"><IMG SRC="images/plus.gif"></A><A onClick="Toggle2(this)" target="main" href="main.html#main.common">Common Interfaces</A><DIV style='display:none'>
+                    <TABLE><TR><TD WIDTH=10></TD><TD><A onClick="Toggle2(this)" target="main" href="main.html#main.menus"><IMG SRC="images/link.gif">Menu</A><DIV></DIV></TD></TR></TABLE>
+                    <TABLE><TR><TD WIDTH=10></TD><TD><A onClick="Toggle2(this)" target="main" href="main.html#main.lists"><IMG SRC="images/link.gif">Lists</A><DIV></DIV></TD></TR></TABLE>
+                    <TABLE><TR><TD WIDTH=10></TD><TD><A onClick="Toggle2(this)" target="main" href="main.html#main.plots"><IMG SRC="images/link.gif">Plots</A><DIV></DIV></TD></TR></TABLE>
+                    <TABLE><TR><TD WIDTH=10></TD><TD><A onClick="Toggle2(this)" target="main" href="main.html#main.dock"><IMG SRC="images/link.gif">Docking Windows</A><DIV></DIV></TD></TR></TABLE>
+                    <TABLE><TR><TD WIDTH=10></TD><TD><A onClick="Toggle2(this)" target="main" href="main.html#main.export"><IMG SRC="images/link.gif">Export</A><DIV></DIV></TD></TR></TABLE>
+                    <TABLE><TR><TD WIDTH=10></TD><TD><A onClick="Toggle2(this)" target="main" href="main.html#main.script"><IMG SRC="images/link.gif">Script</A><DIV></DIV></TD></TR></TABLE>
+                    <TABLE><TR><TD WIDTH=10></TD><TD><A onClick="Toggle2(this)" target="main" href="main.html#main.log"><IMG SRC="images/link.gif">Logging</A><DIV></DIV></TD></TR></TABLE>
+                    <TABLE><TR><TD WIDTH=10></TD><TD><A onClick="Toggle2(this)" target="main" href="main.html#main.notes"><IMG SRC="images/lastlink.gif">Notes</A><DIV></DIV></TD></TR></TABLE>
+                </DIV></TD></TR></TABLE>
+                <TABLE><TR><TD WIDTH=10></TD><TD><A onClick="Toggle(this)"><IMG SRC="images/plus.gif"></A><A onClick="Toggle2(this)" target="main" href="main.html#main.states">States</A><DIV style='display:none'>
+                    <TABLE><TR><TD WIDTH=10></TD><TD><A onClick="Toggle2(this)" target="main" href="main.html#main.states.acq"><IMG SRC="images/link.gif">Acquisition States</A><DIV></DIV></TD></TR></TABLE>
+                    <TABLE><TR><TD WIDTH=10></TD><TD><A onClick="Toggle2(this)" target="main" href="main.html#main.states.gen"><IMG SRC="images/lastlink.gif">Generator States</A><DIV></DIV></TD></TR></TABLE>
+                </DIV></TD></TR></TABLE>
+                <TABLE><TR><TD WIDTH=10></TD><TD><A onClick="Toggle2(this)" target="main" href="main.html#main.trigger"><IMG SRC="images/link.gif">Triggers</A><DIV></DIV></TD></TR></TABLE>
+                <TABLE><TR><TD WIDTH=10></TD><TD><A onClick="Toggle2(this)" target="main" href="main.html#main.other"><IMG SRC="images/lastlink.gif">Installer</A><DIV></DIV></TD></TR></TABLE>
+            </DIV></TD></TR></TABLE>
+            <TABLE><TR><TD WIDTH=0></TD><TD><A onClick="Toggle(this)"><IMG SRC="images/plus.gif"></A><A onClick="Toggle2(this)" target="main" href="scope.html">Scope</A><DIV style='display:none'>
+                <TABLE><TR><TD WIDTH=10></TD><TD><A onClick="Toggle2(this)" target="main" href="scope.html#scope.menu"><IMG SRC="images/link.gif">Menu</A><DIV></DIV></TD></TR></TABLE>
+                <TABLE><TR><TD WIDTH=10></TD><TD><A onClick="Toggle2(this)" target="main" href="scope.html#scope.control"><IMG SRC="images/link.gif">Control</A><DIV style='display:none'></DIV></TD></TR></TABLE>
+                <TABLE><TR><TD WIDTH=10></TD><TD><A onClick="Toggle(this)"><IMG SRC="images/plus.gif"></A><A onClick="Toggle2(this)" target="main" href="scope.html#scope.channels">Channels</A><DIV style='display:none'>
+                    <TABLE><TR><TD WIDTH=10></TD><TD><A onClick="Toggle(this)"><IMG SRC="images/plus.gif"></A><A onClick="Toggle2(this)" target="main" href="scope.html#scope.channel.time">Time</A><DIV style='display:none'>
+                        <TABLE><TR><TD WIDTH=10></TD><TD><A onClick="Toggle2(this)" target="main" href="scope.html#scope.time.position"><IMG SRC="images/link.gif">Position</A><DIV></DIV></TD></TR></TABLE>
+                        <TABLE><TR><TD WIDTH=10></TD><TD><A onClick="Toggle2(this)" target="main" href="scope.html#scope.time.base"><IMG SRC="images/lastlink.gif">Base</A><DIV></DIV></TD></TR></TABLE>
+                    </DIV></TD></TR></TABLE>
+                    <TABLE><TR><TD WIDTH=10></TD><TD><A onClick="Toggle(this)"><IMG SRC="images/plus.gif"></A><A onClick="Toggle2(this)" target="main" href="scope.html#scope.channel.real">Real</A><DIV style='display:none'>
+                        <TABLE><TR><TD WIDTH=10></TD><TD><A onClick="Toggle2(this)" target="main" href="scope.html#scope.offset"><IMG SRC="images/link.gif">Offset</A><DIV></DIV></TD></TR></TABLE>
+                        <TABLE><TR><TD WIDTH=10></TD><TD><A onClick="Toggle2(this)" target="main" href="scope.html#scope.range"><IMG SRC="images/link.gif">Range</A><DIV></DIV></TD></TR></TABLE>
+                        <TABLE><TR><TD WIDTH=10></TD><TD><A onClick="Toggle2(this)" target="main" href="scope.html#scope.coupling"><IMG SRC="images/lastlink.gif">Input Coupling</A><DIV></DIV></TD></TR></TABLE>
+                    </DIV></TD></TR></TABLE>
+                    <TABLE><TR><TD WIDTH=10></TD><TD><A onClick="Toggle2(this)" target="main" href="scope.html#scope.channel.filter"><IMG SRC="images/link.gif">Filter</A><DIV></DIV></TD></TR></TABLE>
+                    <TABLE><TR><TD WIDTH=10></TD><TD><A onClick="Toggle2(this)" target="main" href="scope.html#scope.channel.wavegen"><IMG SRC="images/lastlink.gif">Wavegen</A><DIV></DIV></TD></TR></TABLE>
+                    <TABLE><TR><TD WIDTH=10></TD><TD><A onClick="Toggle2(this)" target="main" href="scope.html#scope.channel.ref"><IMG SRC="images/link.gif">Reference</A><DIV></DIV></TD></TR></TABLE>
+                    <TABLE><TR><TD WIDTH=10></TD><TD><A onClick="Toggle(this)"><IMG SRC="images/plus.gif"></A><A onClick="Toggle2(this)" target="main" href="scope.html#scope.channel.math">Mathematic</A><DIV style='display:none'>
+                        <TABLE><TR><TD WIDTH=10></TD><TD><A onClick="Toggle2(this)" target="main" href="scope.html#scope.channel.math.simple"><IMG SRC="images/link.gif">Simple</A><DIV></DIV></TD></TR></TABLE>
+                        <TABLE><TR><TD WIDTH=10></TD><TD><A onClick="Toggle2(this)" target="main" href="scope.html#scope.channel.math.custom"><IMG SRC="images/link.gif">Custom</A><DIV></DIV></TD></TR></TABLE>
+                        <TABLE><TR><TD WIDTH=10></TD><TD><A onClick="Toggle2(this)" target="main" href="scope.html#scope.channel.math.filter"><IMG SRC="images/link.gif">Filter</A><DIV></DIV></TD></TR></TABLE>
+                        <TABLE><TR><TD WIDTH=10></TD><TD><A onClick="Toggle2(this)" target="main" href="scope.html#scope.channel.math.lockin"><IMG SRC="images/lastlink.gif">Lock-In</A><DIV></DIV></TD></TR></TABLE>
+                    </DIV></TD></TR></TABLE>
+                </DIV></TD></TR></TABLE>
+                <TABLE><TR><TD WIDTH=10></TD><TD><A onClick="Toggle(this)"><IMG SRC="images/plus.gif"></A><A onClick="Toggle2(this)" target="main" href="scope.html#scope.view.main">Main Plot</A><DIV style='display:none'>
+                    <TABLE><TR><TD WIDTH=10></TD><TD><A onClick="Toggle2(this)" target="main" href="scope.html#scope.thumbnail"><IMG SRC="images/link.gif">Thumbnail</A><DIV></DIV></TD></TR></TABLE>
+                    <TABLE><TR><TD WIDTH=10></TD><TD><A onClick="Toggle2(this)" target="main" href="scope.html#scope.quick"><IMG SRC="images/link.gif">Quick Measure</A><DIV></DIV></TD></TR></TABLE>
+                    <TABLE><TR><TD WIDTH=10></TD><TD><A onClick="Toggle2(this)" target="main" href="scope.html#scope.cursors"><IMG SRC="images/link.gif">Cursors</A><DIV></DIV></TD></TR></TABLE>
+                    <TABLE><TR><TD WIDTH=10></TD><TD><A onClick="Toggle2(this)" target="main" href="scope.html#scope.digital"><IMG SRC="images/lastlink.gif">Digital</A><DIV></DIV></TD></TR></TABLE>
+                </DIV></TD></TR></TABLE>
+                <TABLE><TR><TD WIDTH=10></TD><TD><A onClick="Toggle(this)"><IMG SRC="images/plus.gif"></A><A onClick="Toggle2(this)" target="main" href="scope.html#scope.views">Views</A><DIV style='display:none'>
+                    <TABLE><TR><TD WIDTH=10></TD><TD><A onClick="Toggle2(this)" target="main" href="scope.html#scope.view.zoom"><IMG SRC="images/link.gif">Zoom</A><DIV></DIV></TD></TR></TABLE>
+                    <TABLE><TR><TD WIDTH=10></TD><TD><A onClick="Toggle2(this)" target="main" href="scope.html#scope.view.xy"><IMG SRC="images/link.gif">XY</A><DIV></DIV></TD></TR></TABLE>
+                    <TABLE><TR><TD WIDTH=10></TD><TD><A onClick="Toggle2(this)" target="main" href="scope.html#scope.view.xyz"><IMG SRC="images/link.gif">XYZ</A><DIV></DIV></TD></TR></TABLE>
+                    <TABLE><TR><TD WIDTH=10></TD><TD><A onClick="Toggle2(this)" target="main" href="scope.html#scope.view.xyz3d"><IMG SRC="images/link.gif">XYZ 3D</A><DIV></DIV></TD></TR></TABLE>
+                    <TABLE><TR><TD WIDTH=10></TD><TD><A onClick="Toggle2(this)" target="main" href="scope.html#scope.view.fft"><IMG SRC="images/link.gif">FFT</A><DIV></DIV></TD></TR></TABLE>
+                    <TABLE><TR><TD WIDTH=10></TD><TD><A onClick="Toggle2(this)" target="main" href="scope.html#scope.view.spectrogram"><IMG SRC="images/link.gif">Spectrogram</A><DIV></DIV></TD></TR></TABLE>
+                    <TABLE><TR><TD WIDTH=10></TD><TD><A onClick="Toggle2(this)" target="main" href="scope.html#scope.view.spectrogram3d"><IMG SRC="images/link.gif">Spectrogram 3D</A><DIV></DIV></TD></TR></TABLE>
+                    <TABLE><TR><TD WIDTH=10></TD><TD><A onClick="Toggle2(this)" target="main" href="scope.html#scope.view.histogram"><IMG SRC="images/link.gif">Histogram</A><DIV></DIV></TD></TR></TABLE>
+                    <TABLE><TR><TD WIDTH=10></TD><TD><A onClick="Toggle2(this)" target="main" href="scope.html#scope.view.persistence"><IMG SRC="images/link.gif">Persistence</A><DIV></DIV></TD></TR></TABLE>
+                    <TABLE><TR><TD WIDTH=10></TD><TD><A onClick="Toggle2(this)" target="main" href="scope.html#scope.view.eye"><IMG SRC="images/link.gif">Eye Pattern</A><DIV></DIV></TD></TR></TABLE>
+                    <TABLE><TR><TD WIDTH=10></TD><TD><A onClick="Toggle2(this)" target="main" href="scope.html#scope.view.data"><IMG SRC="images/link.gif">Data</A><DIV></DIV></TD></TR></TABLE>
+                    <TABLE><TR><TD WIDTH=10></TD><TD><A onClick="Toggle2(this)" target="main" href="scope.html#scope.view.measure"><IMG SRC="images/link.gif">Measurements</A><DIV></DIV></TD></TR></TABLE>
+                    <TABLE><TR><TD WIDTH=10></TD><TD><A onClick="Toggle2(this)" target="main" href="scope.html#scope.view.log"><IMG SRC="images/link.gif">Logging</A><DIV></DIV></TD></TR></TABLE>
+                    <TABLE><TR><TD WIDTH=10></TD><TD><A onClick="Toggle2(this)" target="main" href="scope.html#scope.view.audio"><IMG SRC="images/link.gif">Audio</A><DIV></DIV></TD></TR></TABLE>
+                    <TABLE><TR><TD WIDTH=10></TD><TD><A onClick="Toggle2(this)" target="main" href="scope.html#scope.view.cursors"><IMG SRC="images/link.gif">X Cursors</A><DIV></DIV></TD></TR></TABLE>
+                    <TABLE><TR><TD WIDTH=10></TD><TD><A onClick="Toggle2(this)" target="main" href="scope.html#scope.view.ycursors"><IMG SRC="images/lastlink.gif">Y Cursors</A><DIV></DIV></TD></TR></TABLE>
+                </DIV></TD></TR></TABLE>
+                <TABLE><TR><TD WIDTH=10></TD><TD><A onClick="Toggle2(this)" target="main" href="scope.html#scope.export"><IMG SRC="images/lastlink.gif">Export</A><DIV></DIV></TD></TR></TABLE>                
+            </DIV></TD></TR></TABLE>
+            <TABLE><TR><TD WIDTH=0></TD><TD><A onClick="Toggle(this)"><IMG SRC="images/plus.gif"></A><A onClick="Toggle2(this)" target="main" href="wavegen.html">Wavegen</A><DIV style='display:none'>
+                <TABLE><TR><TD WIDTH=10></TD><TD><A onClick="Toggle2(this)" target="main" href="wavegen.html#wavegen.menu"><IMG SRC="images/link.gif">Menu</A><DIV></DIV></TD></TR></TABLE>
+                <TABLE><TR><TD WIDTH=10></TD><TD><A onClick="Toggle2(this)" target="main" href="wavegen.html#wavegen.control"><IMG SRC="images/link.gif">Control</A><DIV></DIV></TD></TR></TABLE>
+                <TABLE><TR><TD WIDTH=10></TD><TD><A onClick="Toggle2(this)" target="main" href="wavegen.html#wavegen.preview"><IMG SRC="images/link.gif">Preview</A><DIV></DIV></TD></TR></TABLE>
+                <TABLE><TR><TD WIDTH=10></TD><TD><A onClick="Toggle2(this)" target="main" href="wavegen.html#wavegen.channel"><IMG SRC="images/link.gif">Channel</A><DIV></DIV></TD></TR></TABLE>
+                <TABLE><TR><TD WIDTH=10></TD><TD><A onClick="Toggle(this)"><IMG SRC="images/plus.gif"></A><A onClick="Toggle2(this)" target="main" href="wavegen.html#wavegen.tab">Configuration</A><DIV style='display:none'>
+                    <TABLE><TR><TD WIDTH=10></TD><TD><A onClick="Toggle2(this)" target="main" href="wavegen.html#wavegen.simple"><IMG SRC="images/link.gif">Simple</A><DIV></DIV></TD></TR></TABLE>
+                    <TABLE><TR><TD WIDTH=10></TD><TD><A onClick="Toggle2(this)" target="main" href="wavegen.html#wavegen.basic"><IMG SRC="images/link.gif">Basic</A><DIV></DIV></TD></TR></TABLE>
+                    <TABLE><TR><TD WIDTH=10></TD><TD><A onClick="Toggle2(this)" target="main" href="wavegen.html#wavegen.custom"><IMG SRC="images/link.gif">Custom</A><DIV></DIV></TD></TR></TABLE>
+                    <TABLE><TR><TD WIDTH=10></TD><TD><A onClick="Toggle2(this)" target="main" href="wavegen.html#wavegen.play"><IMG SRC="images/link.gif">Play</A><DIV></DIV></TD></TR></TABLE>
+                    <TABLE><TR><TD WIDTH=10></TD><TD><A onClick="Toggle2(this)" target="main" href="wavegen.html#wavegen.sweep"><IMG SRC="images/link.gif">Sweep</A><DIV></DIV></TD></TR></TABLE>
+                    <TABLE><TR><TD WIDTH=10></TD><TD><A onClick="Toggle2(this)" target="main" href="wavegen.html#wavegen.modulation"><IMG SRC="images/lastlink.gif">Modulation</A><DIV></DIV></TD></TR></TABLE>
+                </DIV></TD></TR></TABLE>
+                <TABLE><TR><TD WIDTH=10></TD><TD><A onClick="Toggle2(this)" target="main" href="wavegen.html#wavegen.states"><IMG SRC="images/link.gif">States</A><DIV></DIV></TD></TR></TABLE>
+                <TABLE><TR><TD WIDTH=10></TD><TD><A onClick="Toggle2(this)" target="main" href="wavegen.html#wavegen.editor"><IMG SRC="images/link.gif">Editor</A><DIV></DIV></TD></TR></TABLE>
+                <TABLE><TR><TD WIDTH=10></TD><TD><A onClick="Toggle2(this)" target="main" href="wavegen.html#wavegen.import"><IMG SRC="images/lastlink.gif">Import </A><DIV></DIV></TD></TR></TABLE>
+            </DIV></TD></TR></TABLE>
+            <TABLE><TR><TD WIDTH=0></TD><TD><A onClick="Toggle(this)"><IMG SRC="images/plus.gif"></A><A onClick="Toggle2(this)" target="main" href="supplies.html">Supplies</A><DIV style='display:none'>
+                <TABLE><TR><TD WIDTH=10></TD><TD><A onClick="Toggle2(this)" target="main" href="supplies10.html"><IMG SRC="images/link.gif">Analog Discovery 3</A><DIV></DIV></TD></TR></TABLE>
+                <TABLE><TR><TD WIDTH=10></TD><TD><A onClick="Toggle2(this)" target="main" href="supplies9.html"><IMG SRC="images/link.gif">DPS3340</A><DIV></DIV></TD></TR></TABLE>
+                <TABLE><TR><TD WIDTH=10></TD><TD><A onClick="Toggle2(this)" target="main" href="supplies8.html"><IMG SRC="images/link.gif">ADP5250</A><DIV></DIV></TD></TR></TABLE>
+                <TABLE><TR><TD WIDTH=10></TD><TD><A onClick="Toggle2(this)" target="main" href="supplies6.html"><IMG SRC="images/link.gif">ADP3450/ADP3250</A><DIV></DIV></TD></TR></TABLE>
+                <TABLE><TR><TD WIDTH=10></TD><TD><A onClick="Toggle2(this)" target="main" href="supplies3s.html"><IMG SRC="images/link.gif">Analog Discovery Studio</A><DIV></DIV></TD></TR></TABLE>
+                <TABLE><TR><TD WIDTH=10></TD><TD><A onClick="Toggle2(this)" target="main" href="supplies3.html"><IMG SRC="images/link.gif">Analog Discovery 2</A><DIV></DIV></TD></TR></TABLE>
+                <TABLE><TR><TD WIDTH=10></TD><TD><A onClick="Toggle2(this)" target="main" href="supplies4.html"><IMG SRC="images/link.gif">Digital Discovery</A><DIV></DIV></TD></TR></TABLE>
+                <TABLE><TR><TD WIDTH=10></TD><TD><A onClick="Toggle2(this)" target="main" href="supplies2.html"><IMG SRC="images/link.gif">Analog Discovery</A><DIV></DIV></TD></TR></TABLE>
+                <TABLE><TR><TD WIDTH=10></TD><TD><A onClick="Toggle2(this)" target="main" href="supplies1.html"><IMG SRC="images/lastlink.gif">Electronics Explorer</A><DIV></DIV></TD></TR></TABLE>
+            </DIV></TD></TR></TABLE>
+            <TABLE><TR><TD WIDTH=0></TD><TD><A onClick="Toggle(this)"><IMG SRC="images/plus.gif"></A><A onClick="Toggle2(this)" target="main" href="dmm.html">DMM</A><DIV style='display:none'>
+            </DIV></TD></TR></TABLE>
+            <TABLE><TR><TD WIDTH=0></TD><TD><A onClick="Toggle(this)"><IMG SRC="images/plus.gif"></A><A onClick="Toggle2(this)" target="main" href="voltmeter.html">Voltmeter</A><DIV style='display:none'>
+            </DIV></TD></TR></TABLE>
+            <TABLE><TR><TD WIDTH=0></TD><TD><A onClick="Toggle(this)"><IMG SRC="images/plus.gif"></A><A onClick="Toggle2(this)" target="main" href="logger.html">Logger</A><DIV style='display:none'>
+                <TABLE><TR><TD WIDTH=10></TD><TD><A onClick="Toggle2(this)" target="main" href="logger.html#logger.plot"><IMG SRC="images/lastlink.gif">Plot</A><DIV></DIV></TD></TR></TABLE>
+            </DIV></TD></TR></TABLE>
+            <TABLE><TR><TD WIDTH=0></TD><TD><A onClick="Toggle(this)"><IMG SRC="images/plus.gif"></A><A onClick="Toggle2(this)" target="main" href="logic.html">Logic</A><DIV style='display:none'>
+                <TABLE><TR><TD WIDTH=10></TD><TD><A onClick="Toggle2(this)" target="main" href="logic.html#logic.menu"><IMG SRC="images/link.gif">Menu</A><DIV></DIV></TD></TR></TABLE>
+                <TABLE><TR><TD WIDTH=10></TD><TD><A onClick="Toggle2(this)" target="main" href="logic.html#logic.control"><IMG SRC="images/link.gif">Control</A><DIV></DIV></TD></TR></TABLE>
+                <TABLE><TR><TD WIDTH=10></TD><TD><A onClick="Toggle2(this)" target="main" href="logic.html#logic.grid"><IMG SRC="images/link.gif">Signal Grid</A><DIV></DIV></TD></TR></TABLE>
+                <TABLE><TR><TD WIDTH=10></TD><TD><A onClick="Toggle(this)"><IMG SRC="images/plus.gif"></A><A onClick="Toggle2(this)" target="main" href="logic.html#logic.protocols">Protocols</A><DIV style='display:none'>
+                    <TABLE><TR><TD WIDTH=10></TD><TD><A onClick="Toggle2(this)" target="main" href="logic.html#logic.edit.signal"><IMG SRC="images/link.gif">Signal</A><DIV></DIV></TD></TR></TABLE>
+                    <TABLE><TR><TD WIDTH=10></TD><TD><A onClick="Toggle2(this)" target="main" href="logic.html#logic.edit.bus"><IMG SRC="images/link.gif">Bus</A><DIV></DIV></TD></TR></TABLE>
+                    <TABLE><TR><TD WIDTH=10></TD><TD><A onClick="Toggle2(this)" target="main" href="logic.html#logic.edit.spi"><IMG SRC="images/link.gif">SPI</A><DIV></DIV></TD></TR></TABLE>
+                    <TABLE><TR><TD WIDTH=10></TD><TD><A onClick="Toggle2(this)" target="main" href="logic.html#logic.edit.spi2"><IMG SRC="images/link.gif">SPI MOSI/MISO</A><DIV></DIV></TD></TR></TABLE>
+                    <TABLE><TR><TD WIDTH=10></TD><TD><A onClick="Toggle2(this)" target="main" href="logic.html#logic.edit.i2c"><IMG SRC="images/link.gif">I2C</A><DIV></DIV></TD></TR></TABLE>
+                    <TABLE><TR><TD WIDTH=10></TD><TD><A onClick="Toggle2(this)" target="main" href="logic.html#logic.edit.uart"><IMG SRC="images/link.gif">UART</A><DIV></DIV></TD></TR></TABLE>
+                    <TABLE><TR><TD WIDTH=10></TD><TD><A onClick="Toggle2(this)" target="main" href="logic.html#logic.edit.usart"><IMG SRC="images/link.gif">USART PS/2</A><DIV></DIV></TD></TR></TABLE>
+                    <TABLE><TR><TD WIDTH=10></TD><TD><A onClick="Toggle2(this)" target="main" href="logic.html#logic.edit.can"><IMG SRC="images/link.gif">CAN</A><DIV></DIV></TD></TR></TABLE>
+                    <TABLE><TR><TD WIDTH=10></TD><TD><A onClick="Toggle2(this)" target="main" href="logic.html#logic.edit.i2s"><IMG SRC="images/link.gif">I2S</A><DIV></DIV></TD></TR></TABLE>
+                    <TABLE><TR><TD WIDTH=10></TD><TD><A onClick="Toggle2(this)" target="main" href="logic.html#logic.edit.onewire"><IMG SRC="images/link.gif">1-Wire</A><DIV></DIV></TD></TR></TABLE>
+                    <TABLE><TR><TD WIDTH=10></TD><TD><A onClick="Toggle2(this)" target="main" href="logic.html#logic.edit.hdmicec"><IMG SRC="images/link.gif">HDMI CEC</A><DIV></DIV></TD></TR></TABLE>
+                    <TABLE><TR><TD WIDTH=10></TD><TD><A onClick="Toggle2(this)" target="main" href="logic.html#logic.edit.manchester"><IMG SRC="images/link.gif">Manchester</A><DIV></DIV></TD></TR></TABLE>
+                    <TABLE><TR><TD WIDTH=10></TD><TD><A onClick="Toggle2(this)" target="main" href="logic.html#logic.edit.jtag"><IMG SRC="images/link.gif">JTAG</A><DIV></DIV></TD></TR></TABLE>
+                    <TABLE><TR><TD WIDTH=10></TD><TD><A onClick="Toggle2(this)" target="main" href="logic.html#logic.edit.gpib"><IMG SRC="images/link.gif">GPIB</A><DIV></DIV></TD></TR></TABLE>
+                    <TABLE><TR><TD WIDTH=10></TD><TD><A onClick="Toggle2(this)" target="main" href="logic.html#logic.edit.swd"><IMG SRC="images/link.gif">SWD</A><DIV></DIV></TD></TR></TABLE>
+                    <TABLE><TR><TD WIDTH=10></TD><TD><A onClick="Toggle2(this)" target="main" href="logic.html#logic.edit.saej1850vpw"><IMG SRC="images/link.gif">SAE J1850 VPW</A><DIV></DIV></TD></TR></TABLE>
+                    <TABLE><TR><TD WIDTH=10></TD><TD><A onClick="Toggle2(this)" target="main" href="logic.html#logic.edit.custom"><IMG SRC="images/lastlink.gif">Custom</A><DIV></DIV></TD></TR></TABLE>
+                </DIV></TD></TR></TABLE>
+                <TABLE><TR><TD WIDTH=10></TD><TD><A onClick="Toggle(this)"><IMG SRC="images/plus.gif"></A><A onClick="Toggle2(this)" target="main" href="logic.html#logic.view">Views</A><DIV style='display:none'>
+                    <TABLE><TR><TD WIDTH=10></TD><TD><A onClick="Toggle2(this)" target="main" href="logic.html#logic.view.data"><IMG SRC="images/link.gif">Data</A><DIV></DIV></TD></TR></TABLE>
+                    <TABLE><TR><TD WIDTH=10></TD><TD><A onClick="Toggle2(this)" target="main" href="logic.html#logic.view.measurements"><IMG SRC="images/link.gif">Measurements</A><DIV></DIV></TD></TR></TABLE>
+                    <TABLE><TR><TD WIDTH=10></TD><TD><A onClick="Toggle2(this)" target="main" href="logic.html#logic.view.events"><IMG SRC="images/link.gif">Events</A><DIV></DIV></TD></TR></TABLE>
+                    <TABLE><TR><TD WIDTH=10></TD><TD><A onClick="Toggle2(this)" target="main" href="logic.html#logic.view.log"><IMG SRC="images/link.gif">Logging</A><DIV></DIV></TD></TR></TABLE>
+                    <TABLE><TR><TD WIDTH=10></TD><TD><A onClick="Toggle2(this)" target="main" href="logic.html#logic.view.cursors"><IMG SRC="images/lastlink.gif">Cursors</A><DIV></DIV></TD></TR></TABLE>
+                </DIV></TD></TR></TABLE>
+                <TABLE><TR><TD WIDTH=10></TD><TD><A onClick="Toggle2(this)" target="main" href="logic.html#logic.export"><IMG SRC="images/lastlink.gif">Export</A><DIV></DIV></TD></TR></TABLE>
+            </DIV></TD></TR></TABLE>
+            <TABLE><TR><TD WIDTH=0></TD><TD><A onClick="Toggle(this)"><IMG SRC="images/plus.gif"></A><A onClick="Toggle2(this)" target="main" href="patterns.html">Patterns</A><DIV style='display:none'>
+                <TABLE><TR><TD WIDTH=10></TD><TD><A onClick="Toggle2(this)" target="main" href="patterns.html#patterns.menu"><IMG SRC="images/link.gif">Menu</A><DIV></DIV></TD></TR></TABLE>
+                <TABLE><TR><TD WIDTH=10></TD><TD><A onClick="Toggle2(this)" target="main" href="patterns.html#patterns.control"><IMG SRC="images/link.gif">Control</A><DIV></DIV></TD></TR></TABLE>
+                <TABLE><TR><TD WIDTH=10></TD><TD><A onClick="Toggle(this)"><IMG SRC="images/plus.gif"></A><A onClick="Toggle2(this)" target="main" href="patterns.html#patterns.grid">Signal Grid</A><DIV style='display:none'>
+                    <TABLE><TR><TD WIDTH=10></TD><TD><A onClick="Toggle2(this)" target="main" href="patterns.html#patterns.grid.add"><IMG SRC="images/link.gif">Add</A><DIV></DIV></TD></TR></TABLE>
+                    <TABLE><TR><TD WIDTH=10></TD><TD><A onClick="Toggle2(this)" target="main" href="patterns.html#patterns.grid.remove"><IMG SRC="images/link.gif">Remove</A><DIV></DIV></TD></TR></TABLE>
+                    <TABLE><TR><TD WIDTH=10></TD><TD><A onClick="Toggle2(this)" target="main" href="patterns.html#patterns.grid.edit"><IMG SRC="images/link.gif">Edit</A><DIV></DIV></TD></TR></TABLE>
+                    <TABLE><TR><TD WIDTH=10></TD><TD><A onClick="Toggle2(this)" target="main" href="patterns.html#patterns.grid.show"><IMG SRC="images/lastlink.gif">Show</A><DIV></DIV></TD></TR></TABLE>
+                </DIV></TD></TR></TABLE>
+                <TABLE><TR><TD WIDTH=10></TD><TD><A onClick="Toggle(this)"><IMG SRC="images/plus.gif"></A><A onClick="Toggle2(this)" target="main" href="patterns.html#patterns.property">Property</A><DIV style='display:none'>
+                    <TABLE><TR><TD WIDTH=10></TD><TD><A onClick="Toggle2(this)" target="main" href="patterns.html#patterns.edit.signal"><IMG SRC="images/link.gif">Signal</A><DIV></DIV></TD></TR></TABLE>
+                    <TABLE><TR><TD WIDTH=10></TD><TD><A onClick="Toggle2(this)" target="main" href="patterns.html#patterns.edit.bus"><IMG SRC="images/link.gif">Bus</A><DIV></DIV></TD></TR></TABLE>
+                    <TABLE><TR><TD WIDTH=10></TD><TD><A onClick="Toggle2(this)" target="main" href="patterns.html#patterns.edit.rom"><IMG SRC="images/lastlink.gif">ROM Logic</A><DIV></DIV></TD></TR></TABLE>
+                </DIV></TD></TR></TABLE>
+                <TABLE><TR><TD WIDTH=10></TD><TD><A onClick="Toggle(this)"><IMG SRC="images/plus.gif"></A><A onClick="Toggle2(this)" target="main" href="patterns.html#patterns.parameter">Parameter</A><DIV style='display:none'>
+                    <TABLE><TR><TD WIDTH=10></TD><TD><A onClick="Toggle2(this)" target="main" href="patterns.html#patterns.parameters"><IMG SRC="images/link.gif">Parameters</A><DIV></DIV></TD></TR></TABLE>
+                    <TABLE><TR><TD WIDTH=10></TD><TD><A onClick="Toggle2(this)" target="main" href="patterns.html#patterns.custom.plot"><IMG SRC="images/link.gif">Custom Plot</A><DIV></DIV></TD></TR></TABLE>
+                    <TABLE><TR><TD WIDTH=10></TD><TD><A onClick="Toggle2(this)" target="main" href="patterns.html#patterns.custom.import"><IMG SRC="images/lastlink.gif">Custom Import</A><DIV></DIV></TD></TR></TABLE>
+                </DIV></TD></TR></TABLE>
+            </DIV></TD></TR></TABLE>
+            <TABLE><TR><TD WIDTH=0></TD><TD><A onClick="Toggle(this)"><IMG SRC="images/plus.gif"></A><A onClick="Toggle2(this)" target="main" href="staticio.html">Static I/O</A><DIV style='display:none'>
+                <TABLE><TR><TD WIDTH=10></TD><TD><A onClick="Toggle2(this)" target="main" href="staticio.html#staticio.group"><IMG SRC="images/link.gif">Group</A><DIV></DIV></TD></TR></TABLE>
+                <TABLE><TR><TD WIDTH=10></TD><TD><A onClick="Toggle(this)"><IMG SRC="images/plus.gif"></A><A onClick="Toggle2(this)" target="main" href="staticio.html#staticio.bitio">Bit IO</A><DIV style='display:none'>
+                    <TABLE><TR><TD WIDTH=10></TD><TD><A onClick="Toggle2(this)" target="main" href="staticio.html#staticio.led"><IMG SRC="images/link.gif">LED</A><DIV></DIV></TD></TR></TABLE>
+                    <TABLE><TR><TD WIDTH=10></TD><TD><A onClick="Toggle2(this)" target="main" href="staticio.html#staticio.button"><IMG SRC="images/link.gif">Button</A><DIV></DIV></TD></TR></TABLE>
+                    <TABLE><TR><TD WIDTH=10></TD><TD><A onClick="Toggle2(this)" target="main" href="staticio.html#staticio.switch"><IMG SRC="images/lastlink.gif">Switch</A><DIV></DIV></TD></TR></TABLE>
+                </DIV></TD></TR></TABLE>
+                <TABLE><TR><TD WIDTH=10></TD><TD><A onClick="Toggle2(this)" target="main" href="staticio.html#staticio.slider"><IMG SRC="images/link.gif">Slider</A><DIV></DIV></TD></TR></TABLE>
+                <TABLE><TR><TD WIDTH=10></TD><TD><A onClick="Toggle2(this)" target="main" href="staticio.html#staticio.progress"><IMG SRC="images/link.gif">Progress Bar</A><DIV></DIV></TD></TR></TABLE>
+                <TABLE><TR><TD WIDTH=10></TD><TD><A onClick="Toggle2(this)" target="main" href="staticio.html#staticio.7seg"><IMG SRC="images/lastlink.gif">7-Segment</A><DIV></DIV></TD></TR></TABLE>
+            </DIV></TD></TR></TABLE>          
+            <TABLE><TR><TD WIDTH=0></TD><TD><A onClick="Toggle(this)"><IMG SRC="images/plus.gif"></A><A onClick="Toggle2(this)" target="main" href="spectrum.html">Spectrum</A><DIV style='display:none'>
+                <TABLE><TR><TD WIDTH=10></TD><TD><A onClick="Toggle2(this)" target="main" href="spectrum.html#spectrum.menu"><IMG SRC="images/link.gif">Menu</A><DIV></DIV></TD></TR></TABLE>
+                <TABLE><TR><TD WIDTH=10></TD><TD><A onClick="Toggle2(this)" target="main" href="spectrum.html#spectrum.control"><IMG SRC="images/link.gif">Control</A><DIV></DIV></TD></TR></TABLE>
+                <TABLE><TR><TD WIDTH=10></TD><TD><A onClick="Toggle(this)"><IMG SRC="images/plus.gif"></A><A onClick="Toggle2(this)" target="main" href="spectrum.html#spectrum.traces">Traces</A><DIV style='display:none'>
+                    <TABLE><TR><TD WIDTH=10></TD><TD><A onClick="Toggle2(this)" target="main" href="spectrum.html#spectrum.magnitude"><IMG SRC="images/link.gif">Magnitude</A><DIV></DIV></TD></TR></TABLE>
+                    <TABLE><TR><TD WIDTH=10></TD><TD><A onClick="Toggle2(this)" target="main" href="spectrum.html#spectrum.channel"><IMG SRC="images/link.gif">Channel</A><DIV></DIV></TD></TR></TABLE>
+                    <TABLE><TR><TD WIDTH=10></TD><TD><A onClick="Toggle2(this)" target="main" href="spectrum.html#spectrum.trace"><IMG SRC="images/lastlink.gif">Trace</A><DIV></DIV></TD></TR></TABLE>
+                </DIV></TD></TR></TABLE>
+                <TABLE><TR><TD WIDTH=10></TD><TD><A onClick="Toggle(this)"><IMG SRC="images/plus.gif"></A><A onClick="Toggle2(this)" target="main" href="spectrum.html#spectrum.plot">Plot</A><DIV style='display:none'>
+                    <TABLE><TR><TD WIDTH=10></TD><TD><A onClick="Toggle2(this)" target="main" href="spectrum.html#spectrum.quick"><IMG SRC="images/link.gif">Quick Measure</A><DIV></DIV></TD></TR></TABLE>
+                    <TABLE><TR><TD WIDTH=10></TD><TD><A onClick="Toggle2(this)" target="main" href="spectrum.html#spectrum.cursors"><IMG SRC="images/lastlink.gif">Cursors</A><DIV></DIV></TD></TR></TABLE>
+                </DIV></TD></TR></TABLE>
+                <TABLE><TR><TD WIDTH=10></TD><TD><A onClick="Toggle(this)"><IMG SRC="images/plus.gif"></A><A onClick="Toggle2(this)" target="main" href="spectrum.html#spectrum.views">Views</A><DIV style='display:none'>
+                    <TABLE><TR><TD WIDTH=10></TD><TD><A onClick="Toggle2(this)" target="main" href="spectrum.html#spectrum.view.persistence"><IMG SRC="images/link.gif">Persistence</A><DIV></DIV></TD></TR></TABLE>
+                    <TABLE><TR><TD WIDTH=10></TD><TD><A onClick="Toggle2(this)" target="main" href="spectrum.html#spectrum.view.time"><IMG SRC="images/link.gif">Time</A><DIV></DIV></TD></TR></TABLE>
+                    <TABLE><TR><TD WIDTH=10></TD><TD><A onClick="Toggle2(this)" target="main" href="spectrum.html#spectrum.view.measure"><IMG SRC="images/link.gif">Measure</A><DIV></DIV></TD></TR></TABLE>
+                    <TABLE><TR><TD WIDTH=10></TD><TD><A onClick="Toggle2(this)" target="main" href="spectrum.html#spectrum.view.components"><IMG SRC="images/link.gif">Components</A><DIV></DIV></TD></TR></TABLE>
+                    <TABLE><TR><TD WIDTH=10></TD><TD><A onClick="Toggle2(this)" target="main" href="spectrum.html#spectrum.view.cursors"><IMG SRC="images/link.gif">Cursors</A><DIV></DIV></TD></TR></TABLE>
+                    <TABLE><TR><TD WIDTH=10></TD><TD><A onClick="Toggle2(this)" target="main" href="spectrum.html#spectrum.view.markers"><IMG SRC="images/lastlink.gif">Markers</A><DIV></DIV></TD></TR></TABLE>
+                </DIV></TD></TR></TABLE>
+                <TABLE><TR><TD WIDTH=10></TD><TD><A onClick="Toggle2(this)" target="main" href="spectrum.html#spectrum.export"><IMG SRC="images/lastlink.gif">Export</A><DIV></DIV></TD></TR></TABLE>
+            </DIV></TD></TR></TABLE>
+            <TABLE><TR><TD WIDTH=0></TD><TD><A onClick="Toggle(this)"><IMG SRC="images/plus.gif"></A><A onClick="Toggle2(this)" target="main" href="network.html">Network</A><DIV style='display:none'>
+                <TABLE><TR><TD WIDTH=10></TD><TD><A onClick="Toggle2(this)" target="main" href="network.html#network.menu"><IMG SRC="images/link.gif">Menu</A><DIV></DIV></TD></TR></TABLE>
+                <TABLE><TR><TD WIDTH=10></TD><TD><A onClick="Toggle2(this)" target="main" href="network.html#network.control"><IMG SRC="images/link.gif">Control</A><DIV></DIV></TD></TR></TABLE>
+                <TABLE><TR><TD WIDTH=10></TD><TD><A onClick="Toggle(this)"><IMG SRC="images/plus.gif"></A><A onClick="Toggle2(this)" target="main" href="network.html#network.channels">Channels</A><DIV style='display:none'>
+                    <TABLE><TR><TD WIDTH=10></TD><TD><A onClick="Toggle2(this)" target="main" href="network.html#network.magnitude"><IMG SRC="images/link.gif">Magnitude</A><DIV></DIV></TD></TR></TABLE>
+                    <TABLE><TR><TD WIDTH=10></TD><TD><A onClick="Toggle2(this)" target="main" href="network.html#network.phase"><IMG SRC="images/link.gif">Phase</A><DIV></DIV></TD></TR></TABLE>
+                    <TABLE><TR><TD WIDTH=10></TD><TD><A onClick="Toggle2(this)" target="main" href="network.html#network.custom"><IMG SRC="images/link.gif">Custom</A><DIV></DIV></TD></TR></TABLE>
+                    <TABLE><TR><TD WIDTH=10></TD><TD><A onClick="Toggle2(this)" target="main" href="network.html#network.channel.add"><IMG SRC="images/link.gif">Add Channel</A><DIV></DIV></TD></TR></TABLE>
+                    <TABLE><TR><TD WIDTH=10></TD><TD><A onClick="Toggle2(this)" target="main" href="network.html#network.channel"><IMG SRC="images/link.gif">Channel</A><DIV></DIV></TD></TR></TABLE>
+                    <TABLE><TR><TD WIDTH=10></TD><TD><A onClick="Toggle2(this)" target="main" href="network.html#network.reference"><IMG SRC="images/lastlink.gif">Reference</A><DIV></DIV></TD></TR></TABLE>
+                </DIV></TD></TR></TABLE>
+                <TABLE><TR><TD WIDTH=10></TD><TD><A onClick="Toggle(this)"><IMG SRC="images/plus.gif"></A><A onClick="Toggle2(this)" target="main" href="network.html#network.plot">Bode Plot</A><DIV style='display:none'>
+                    <TABLE><TR><TD WIDTH=10></TD><TD><A onClick="Toggle2(this)" target="main" href="network.html#network.quick"><IMG SRC="images/link.gif">Quick Measure</A><DIV></DIV></TD></TR></TABLE>
+                    <TABLE><TR><TD WIDTH=10></TD><TD><A onClick="Toggle2(this)" target="main" href="network.html#network.cursors"><IMG SRC="images/lastlink.gif">Cursors</A><DIV></DIV></TD></TR></TABLE>
+                </DIV></TD></TR></TABLE>
+                <TABLE><TR><TD WIDTH=10></TD><TD><A onClick="Toggle(this)"><IMG SRC="images/plus.gif"></A><A onClick="Toggle2(this)" target="main" href="network.html#network.views">Views</A><DIV style='display:none'>
+                    <TABLE><TR><TD WIDTH=10></TD><TD><A onClick="Toggle2(this)" target="main" href="network.html#network.view.time"><IMG SRC="images/link.gif">Time</A><DIV></DIV></TD></TR></TABLE>
+                    <TABLE><TR><TD WIDTH=10></TD><TD><A onClick="Toggle2(this)" target="main" href="network.html#network.view.fft"><IMG SRC="images/link.gif">FFT</A><DIV></DIV></TD></TR></TABLE>
+                    <TABLE><TR><TD WIDTH=10></TD><TD><A onClick="Toggle2(this)" target="main" href="network.html#network.view.nyquist"><IMG SRC="images/link.gif">Nyquist</A><DIV></DIV></TD></TR></TABLE>
+                    <TABLE><TR><TD WIDTH=10></TD><TD><A onClick="Toggle2(this)" target="main" href="network.html#network.view.nichols"><IMG SRC="images/link.gif">Nichols</A><DIV></DIV></TD></TR></TABLE>
+                    <TABLE><TR><TD WIDTH=10></TD><TD><A onClick="Toggle2(this)" target="main" href="network.html#network.view.cursors"><IMG SRC="images/lastlink.gif">Cursors</A><DIV></DIV></TD></TR></TABLE>
+                </DIV></TD></TR></TABLE>
+                <TABLE><TR><TD WIDTH=10></TD><TD><A onClick="Toggle2(this)" target="main" href="network.html#network.export"><IMG SRC="images/lastlink.gif">Export</A><DIV></DIV></TD></TR></TABLE>
+            </DIV></TD></TR></TABLE>  
+            <TABLE><TR><TD WIDTH=0></TD><TD><A onClick="Toggle(this)"><IMG SRC="images/plus.gif"></A><A onClick="Toggle2(this)" target="main" href="impedance.html">Impedance</A><DIV style='display:none'>
+                <TABLE><TR><TD WIDTH=10></TD><TD><A onClick="Toggle2(this)" target="main" href="impedance.html#impedance.meter"><IMG SRC="images/link.gif">Meter</A><DIV></DIV></TD></TR></TABLE>
+                <TABLE><TR><TD WIDTH=10></TD><TD><A onClick="Toggle2(this)" target="main" href="impedance.html#impedance.analyzer"><IMG SRC="images/link.gif">Analyzer</A><DIV></DIV></TD></TR></TABLE>
+                <TABLE><TR><TD WIDTH=10></TD><TD><A onClick="Toggle2(this)" target="main" href="impedance.html#impedance.menu"><IMG SRC="images/link.gif">Menu</A><DIV></DIV></TD></TR></TABLE>
+                <TABLE><TR><TD WIDTH=10></TD><TD><A onClick="Toggle(this)"><IMG SRC="images/plus.gif"></A><A onClick="Toggle2(this)" target="main" href="impedance.html#impedance.view">View</A><DIV style='display:none'>
+                    <TABLE><TR><TD WIDTH=10></TD><TD><A onClick="Toggle2(this)" target="main" href="impedance.html#impedance.quick"><IMG SRC="images/link.gif">Quick Measure</A><DIV></DIV></TD></TR></TABLE>
+                    <TABLE><TR><TD WIDTH=10></TD><TD><A onClick="Toggle2(this)" target="main" href="impedance.html#impedance.cursors"><IMG SRC="images/lastlink.gif">Cursors</A><DIV></DIV></TD></TR></TABLE>
+                </DIV></TD></TR></TABLE>
+                <TABLE><TR><TD WIDTH=10></TD><TD><A onClick="Toggle2(this)" target="main" href="impedance.html#impedance.control"><IMG SRC="images/link.gif">Control</A><DIV></DIV></TD></TR></TABLE>
+                <TABLE><TR><TD WIDTH=10></TD><TD><A onClick="Toggle2(this)" target="main" href="impedance.html#impedance.trace"><IMG SRC="images/link.gif">Trace/Reference</A><DIV></DIV></TD></TR></TABLE>
+                <TABLE><TR><TD WIDTH=10></TD><TD><A onClick="Toggle2(this)" target="main" href="impedance.html#impedance.export"><IMG SRC="images/lastlink.gif">Export</A><DIV></DIV></TD></TR></TABLE>
+            </DIV></TD></TR></TABLE>
+            <TABLE><TR><TD WIDTH=0></TD><TD><A onClick="Toggle(this)"><IMG SRC="images/plus.gif"></A><A onClick="Toggle2(this)" target="main" href="tracer.html">Tracer</A><DIV style='display:none'>
+                <TABLE><TR><TD WIDTH=10></TD><TD><A onClick="Toggle2(this)" target="main" href="tracer.html#tracer.menu"><IMG SRC="images/link.gif">Menu</A><DIV></DIV></TD></TR></TABLE>
+                <TABLE><TR><TD WIDTH=10></TD><TD><A onClick="Toggle2(this)" target="main" href="tracer.html#tracer.control"><IMG SRC="images/link.gif">Control</A><DIV></DIV></TD></TR></TABLE>
+                <TABLE><TR><TD WIDTH=10></TD><TD><A onClick="Toggle2(this)" target="main" href="tracer.html#tracer.trace"><IMG SRC="images/link.gif">Trace/Reference</A><DIV></DIV></TD></TR></TABLE>
+                <TABLE><TR><TD WIDTH=10></TD><TD><A onClick="Toggle(this)"><IMG SRC="images/plus.gif"></A><A onClick="Toggle2(this)" target="main" href="tracer.html#tracer.view">Views</A><DIV style='display:none'>
+                    <TABLE><TR><TD WIDTH=10></TD><TD><A onClick="Toggle2(this)" target="main" href="tracer.html#tracer.quick"><IMG SRC="images/link.gif">Quick Measure</A><DIV></DIV></TD></TR></TABLE>
+                    <TABLE><TR><TD WIDTH=10></TD><TD><A onClick="Toggle2(this)" target="main" href="tracer.html#tracer.cursors"><IMG SRC="images/link.gif">Cursors</A><DIV></DIV></TD></TR></TABLE>
+                    <TABLE><TR><TD WIDTH=10></TD><TD><A onClick="Toggle2(this)" target="main" href="tracer.html#tracer.view.xy"><IMG SRC="images/link.gif">XY</A><DIV></DIV></TD></TR></TABLE>
+                    <TABLE><TR><TD WIDTH=10></TD><TD><A onClick="Toggle2(this)" target="main" href="tracer.html#tracer.view.xyz"><IMG SRC="images/link.gif">XYZ 3D</A><DIV></DIV></TD></TR></TABLE>
+                    <TABLE><TR><TD WIDTH=10></TD><TD><A onClick="Toggle2(this)" target="main" href="tracer.html#tracer.view.time"><IMG SRC="images/lastlink.gif">Time</A><DIV></DIV></TD></TR></TABLE>
+                </DIV></TD></TR></TABLE>
+            </DIV></TD></TR></TABLE>
+            <TABLE><TR><TD WIDTH=0></TD><TD><A onClick="Toggle(this)"><IMG SRC="images/plus.gif"></A><A onClick="Toggle2(this)" target="main" href="protocol.html">Protocol</A><DIV style='display:none'>
+                <TABLE><TR><TD WIDTH=10></TD><TD><A onClick="Toggle2(this)" target="main" href="protocol.html#protocol.uart"><IMG SRC="images/link.gif">UART</A><DIV></DIV></TD></TR></TABLE>
+                <TABLE><TR><TD WIDTH=10></TD><TD><A onClick="Toggle2(this)" target="main" href="protocol.html#protocol.spi"><IMG SRC="images/link.gif">SPI</A><DIV></DIV></TD></TR></TABLE>
+                <TABLE><TR><TD WIDTH=10></TD><TD><A onClick="Toggle2(this)" target="main" href="protocol.html#protocol.i2c"><IMG SRC="images/link.gif">I2C</A><DIV></DIV></TD></TR></TABLE>
+                <TABLE><TR><TD WIDTH=10></TD><TD><A onClick="Toggle2(this)" target="main" href="protocol.html#protocol.can"><IMG SRC="images/link.gif">CAN</A><DIV></DIV></TD></TR></TABLE>
+                <TABLE><TR><TD WIDTH=10></TD><TD><A onClick="Toggle2(this)" target="main" href="protocol.html#protocol.cec"><IMG SRC="images/link.gif">CEC</A><DIV></DIV></TD></TR></TABLE>
+                <TABLE><TR><TD WIDTH=10></TD><TD><A onClick="Toggle2(this)" target="main" href="protocol.html#protocol.jtag"><IMG SRC="images/link.gif">JTAG</A><DIV></DIV></TD></TR></TABLE>
+                <TABLE><TR><TD WIDTH=10></TD><TD><A onClick="Toggle2(this)" target="main" href="protocol.html#protocol.swd"><IMG SRC="images/link.gif">SWD</A><DIV></DIV></TD></TR></TABLE>
+                <TABLE><TR><TD WIDTH=10></TD><TD><A onClick="Toggle2(this)" target="main" href="protocol.html#protocol.avr"><IMG SRC="images/lastlink.gif">AVR</A><DIV></DIV></TD></TR></TABLE>
+           </DIV></TD></TR></TABLE>
+            <TABLE><TR><TD WIDTH=0></TD><TD><A onClick="Toggle(this)"><IMG SRC="images/plus.gif"></A><A onClick="Toggle2(this)" target="main" href="script.html">Script</A><DIV style='display:none'>
+                <TABLE><TR><TD WIDTH=10></TD><TD><A onClick="Toggle2(this)" target="main" href="script.html#script.menu"><IMG SRC="images/link.gif">Menu</A><DIV></DIV></TD></TR></TABLE>
+                <TABLE><TR><TD WIDTH=10></TD><TD><A onClick="Toggle2(this)" target="main" href="script.html#script.control"><IMG SRC="images/link.gif">Control</A><DIV></DIV></TD></TR></TABLE>
+                <TABLE><TR><TD WIDTH=10></TD><TD><A onClick="Toggle2(this)" target="main" href="script.html#script.output"><IMG SRC="images/link.gif">Output</A><DIV></DIV></TD></TR></TABLE>
+                <TABLE><TR><TD WIDTH=10></TD><TD><A onClick="Toggle2(this)" target="main" href="script.html#script.code"><IMG SRC="images/link.gif">Code</A><DIV></DIV></TD></TR></TABLE>
+                <TABLE><TR><TD WIDTH=10></TD><TD><A onClick="Toggle2(this)" target="main" href="script.html#script.example"><IMG SRC="images/lastlink.gif">Examples</A><DIV></DIV></TD></TR></TABLE>
+            </DIV></TD></TR></TABLE>
+        </TD></TR>
+
+        <TR><TD WIDTH=0></TD><TD>&nbsp;</TD></TR>
+        <TR><TD WIDTH=0></TD><TD><IMG SRC="images/leaf.gif">Getting started
+            <TABLE><TR><TD WIDTH=10></TD><TD><A onClick="Toggle2(this)" target="main" href="start10.html"><IMG SRC="images/link.gif">Analog Discovery 3</A><DIV></DIV></TD></TR></TABLE>
+            <TABLE><TR><TD WIDTH=10></TD><TD><A onClick="Toggle2(this)" target="main" href="start9.html"><IMG SRC="images/link.gif">DPS3340</A><DIV></DIV></TD></TR></TABLE>
+            <TABLE><TR><TD WIDTH=10></TD><TD><A onClick="Toggle2(this)" target="main" href="start8.html"><IMG SRC="images/link.gif">ADP5250</A><DIV></DIV></TD></TR></TABLE>
+            <TABLE><TR><TD WIDTH=10></TD><TD><A onClick="Toggle2(this)" target="main" href="start7.html"><IMG SRC="images/link.gif">Eclypse Z7</A><DIV></DIV></TD></TR></TABLE>
+            <TABLE><TR><TD WIDTH=10></TD><TD><A onClick="Toggle2(this)" target="main" href="start6.html"><IMG SRC="images/link.gif">ADP3450/ADP3250</A><DIV></DIV></TD></TR></TABLE>
+            <TABLE><TR><TD WIDTH=10></TD><TD><A onClick="Toggle2(this)" target="main" href="start3s.html"><IMG SRC="images/link.gif">Analog Discovery Studio</A><DIV></DIV></TD></TR></TABLE>
+            <TABLE><TR><TD WIDTH=10></TD><TD><A onClick="Toggle2(this)" target="main" href="start3.html"><IMG SRC="images/link.gif">Analog Discovery 2</A><DIV></DIV></TD></TR></TABLE>
+            <TABLE><TR><TD WIDTH=10></TD><TD><A onClick="Toggle2(this)" target="main" href="start4.html"><IMG SRC="images/link.gif">Digital Discovery</A><DIV></DIV></TD></TR></TABLE>
+            <TABLE><TR><TD WIDTH=10></TD><TD><A onClick="Toggle2(this)" target="main" href="start2.html"><IMG SRC="images/link.gif">Analog Discovery</A><DIV></DIV></TD></TR></TABLE>
+            <TABLE><TR><TD WIDTH=10></TD><TD><A onClick="Toggle2(this)" target="main" href="start1.html"><IMG SRC="images/link.gif">Electronics Explorer</A><DIV></DIV></TD></TR></TABLE>
+            <TABLE><TR><TD WIDTH=10></TD><TD><A onClick="Toggle2(this)" target="main" href="start0.html"><IMG SRC="images/link.gif">Sound Card</A><DIV></DIV></TD></TR></TABLE>
+            <TABLE><TR><TD WIDTH=10></TD><TD><IMG SRC="images/nolink.gif"><DIV></DIV></TD></TR></TABLE>
+            <TABLE><TR><TD WIDTH=10></TD><TD><A onClick="Toggle2(this)" target="main" href="startadbnc.html"><IMG SRC="images/link.gif">BNC Adapter</A><DIV></DIV></TD></TR></TABLE>
+            <TABLE><TR><TD WIDTH=10></TD><TD><A onClick="Toggle2(this)" target="main" href="startadia.html"><IMG SRC="images/link.gif">Impedance Analyzer</A><DIV></DIV></TD></TR></TABLE>
+            <TABLE><TR><TD WIDTH=10></TD><TD><A onClick="Toggle2(this)" target="main" href="startadtt.html"><IMG SRC="images/link.gif">Transistor Tester</A><DIV></DIV></TD></TR></TABLE>
+            <TABLE><TR><TD WIDTH=10></TD><TD><IMG SRC="images/nolink.gif"><DIV></DIV></TD></TR></TABLE>
+            <TABLE><TR><TD WIDTH=10></TD><TD><A onClick="Toggle2(this)" target="_blank" href="https://digilent.com/reference/test-and-measurement/start"><IMG SRC="images/lastlink.gif">More</A><DIV></DIV></TD></TR></TABLE>
+         </TD></TR>
+    </TABLE>
+
+    <div id="lblfind" style="display:none"><b>Found topics:</b></div>
+    <ol id="keys" style="display:none">
+        <li><a target="main" href="main.html">WaveForms</a>
+        <li><a target="main" href="main.html#main.trouble">WaveForms - Troubleshoot</a>
+        <li><a target="main" href="main.html#main.trouble">WaveForms - Safe Mode</a>
+        <li><a target="main" href="main.html#main.workspace">WaveForms - Workspace</a>
+        <li><a target="main" href="main.html#main.workspace">WaveForms - Project</a>
+        <li><a target="main" href="main.html#main.workspace">WaveForms - dwf3* file</a>
+        <li><a target="main" href="main.html#main.device">WaveForms - Device Manager</a>
+        <li><a target="main" href="main.html#main.device">WaveForms - Configurations</a>
+        <li><a target="main" href="main.html#main.options">WaveForms - Options</a>
+        <li><a target="main" href="main.html#main.calib">WaveForms - Calibration</a>
+        <li><a target="main" href="main.html#main.dock">WaveForms - Docking Windows</a>
+        <li><a target="main" href="main.html#main.trigger">WaveForms - Triggers</a>
+        <li><a target="main" href="main.html#main.installer">WaveForms - Installer</a>
+        
+        <li><a target="main" href="scope.html">Scope - Oscilloscope</a>
+        <li><a target="main" href="scope.html#scope.menu">Scope - Menu</a>
+        <li><a target="main" href="scope.html#scope.toolbar">Scope - Toolbar</a>
+        <li><a target="main" href="scope.html#scope.channels">Scope - Channels</a>
+        <li><a target="main" href="scope.html#scope.time.base">Scope - Time Base</a>
+        <li><a target="main" href="scope.html#scope.time.position">Scope - Time/Trigger Position</a>
+        <li><a target="main" href="scope.html#scope.channel.real">Scope - Real Channels</a>
+        <li><a target="main" href="scope.html#scope.channel.real">Scope - Noise Band</a>
+        <li><a target="main" href="scope.html#scope.offset">Scope - Channel Offset</a>
+        <li><a target="main" href="scope.html#scope.range">Scope - Channel Range</a>
+        <li><a target="main" href="scope.html#scope.coupling">Scope - Input Coupling, AC-DC</a>
+        <li><a target="main" href="scope.html#scope.channel.math">Scope - Mathematic Channels</a>
+        <li><a target="main" href="scope.html#scope.channel.math.custom">Scope - Custom Math Function</a>
+        <li><a target="main" href="scope.html#scope.channel.ref">Scope - Reference Channels</a>
+        <li><a target="main" href="scope.html#scope.toolbar">Scope - Toolbar</a>
+        <li><a target="main" href="scope.html#scope.toolbar">Scope - Single, Run, Stop</a>
+        <li><a target="main" href="scope.html#scope.buffer">Scope - Acquisition PC Buffer</a>
+        <li><a target="main" href="scope.html#scope.acq.mode">Scope - Trigger Mode (Normal, Auto, None)</a>
+        <li><a target="main" href="scope.html#scope.acq.scan">Scope - Scan Mode (Repeated, Screen, Shift)</a>
+        <li><a target="main" href="scope.html#scope.trigger">Scope - Trigger Configuration</a>
+        <li><a target="main" href="scope.html#scope.trigger.source">Scope - Trigger Source</a>
+        <li><a target="main" href="scope.html#scope.trigger.type">Scope - Trigger Type </a>
+        <li><a target="main" href="scope.html#scope.trigger.simple">Scope - Simple Trigger</a>
+        <li><a target="main" href="scope.html#scope.trigger.edge">Scope - Edge Trigger</a>
+        <li><a target="main" href="scope.html#scope.trigger.pulse">Scope - Pulse Trigger</a>
+        <li><a target="main" href="scope.html#scope.trigger.transition">Scope - Transition Trigger</a>
+        <li><a target="main" href="scope.html#scope.trigger.filter">Scope - Trigger Sample Mode</a>
+        <li><a target="main" href="scope.html#scope.trigger.condition">Scope - Trigger Condition (Rising-Falling Positive-Negative)</a>
+        <li><a target="main" href="scope.html#scope.trigger.level">Scope - Trigger Level</a>
+        <li><a target="main" href="scope.html#scope.trigger.hysteresis">Scope - Trigger Hysteresis</a>
+        <li><a target="main" href="scope.html#scope.trigger.lcondition">Scope - Trigger Length Condition (More-Less)</a>
+        <li><a target="main" href="scope.html#scope.trigger.length">Scope - Trigger Length</a>
+        <li><a target="main" href="scope.html#scope.trigger.holdoff">Scope - Trigger Holdoff</a>
+        <li><a target="main" href="scope.html#scope.view.main">Scope - Main Plot</a>
+        <li><a target="main" href="scope.html#scope.view.main.status">Scope - Status (Ready, Armed, Trig'd, Auto, Done, Stop, Busy, Error)</a>
+        <li><a target="main" href="scope.html#scope.view.main.digital">Scope - Digital Channels</a>
+        <li><a target="main" href="scope.html#scope.view.xy">Scope - XY View</a>
+        <li><a target="main" href="scope.html#scope.view.xyz">Scope - XYZ 3D</a>
+        <li><a target="main" href="scope.html#scope.view.histogram">Scope - Histogram</a>
+        <li><a target="main" href="scope.html#scope.view.persistence">Scope - Persistence</a>
+        <li><a target="main" href="scope.html#scope.view.spectrogram">Scope - Spectrogram</a>
+        <li><a target="main" href="scope.html#scope.view.spectrogram3d">Scope - Spectrogram 3D</a>
+        <li><a target="main" href="scope.html#scope.view.measure">Scope - Measurements</a>
+        <li><a target="main" href="scope.html#scope.view.data">Scope - Data</a>
+        <li><a target="main" href="scope.html#scope.export">Scope - Export</a>
+        
+        <li><a target="main" href="wavegen.html">WaveGen - Arbitrary Waveform Generator</a>
+        <li><a target="main" href="wavegen.html#wavegen.sync">WaveGen - Synchronization</a>
+        <li><a target="main" href="wavegen.html#wavegen.sync">WaveGen - Synchronization - Independent</a>
+        <li><a target="main" href="wavegen.html#wavegen.sync">WaveGen - Synchronization - Synchronized</a>
+        <li><a target="main" href="wavegen.html#wavegen.sync">WaveGen - Synchronization - Auto synchronize</a>
+        <li><a target="main" href="wavegen.html#wavegen.preview">WaveGen - Signal Preview Plot</a>
+        <li><a target="main" href="wavegen.html#wavegen.basic">WaveGen - Basic Configuration Mode</a>
+        <li><a target="main" href="wavegen.html#wavegen.custom">WaveGen - Custom Mode</a>
+        <li><a target="main" href="wavegen.html#wavegen.sweep">WaveGen - Sweep, Damp Configuration Mode</a>
+        <li><a target="main" href="wavegen.html#wavegen.advanced">WaveGen - Advanced Configuration Mode</a>
+        <li><a target="main" href="wavegen.html#wavegen.states">WaveGen - States: Trigger, Wait, Run, Repeat</a>
+        <li><a target="main" href="wavegen.html#wavegen.editor">WaveGen - Editor</a>
+        <li><a target="main" href="wavegen.html#wavegen.import">WaveGen - Import File</a>
+
+        <li><a target="main" href="supplies.html">Power Supplies</a>
+        <li><a target="main" href="supplies310.html">Power Supplies - Analog Discovery 3</a>
+        <li><a target="main" href="supplies3.html">Power Supplies - Analog Discovery 2</a>
+        <li><a target="main" href="supplies2.html">Power Supplies - Analog Discovery</a>
+        <li><a target="main" href="supplies1.html">Power Supplies - Electronics Explorer</a>
+
+        <li><a target="main" href="voltmeter.html">Voltmeter</a>
+        <li><a target="main" href="logger.html">Data Logger</a>
+
+        <li><a target="main" href="patterns.html">Patterns - Digital Pattern Generator</a>
+        <li><a target="main" href="patterns.html#patterns.output">Patterns - Output</a>
+        <li><a target="main" href="patterns.html#patterns.output">Patterns - Output PP Push-Pull</a>
+        <li><a target="main" href="patterns.html#patterns.output">Patterns - Output OD Open-Drain</a>
+        <li><a target="main" href="patterns.html#patterns.output">Patterns - Output OS Open-Source</a>
+        <li><a target="main" href="patterns.html#patterns.output">Patterns - Output TS Three-State</a>
+        <li><a target="main" href="patterns.html#patterns.property">Patterns - Property Editor</a>
+        <li><a target="main" href="patterns.html#patterns.parameter">Patterns - Parameter Editor</a>
+        <li><a target="main" href="patterns.html#patterns.type.constant">Patterns - Type Constant</a>
+        <li><a target="main" href="patterns.html#patterns.type.clock">Patterns - Type Clock</a>
+        <li><a target="main" href="patterns.html#patterns.type.random">Patterns - Type Random</a>
+        <li><a target="main" href="patterns.html#patterns.type.counters">Patterns - Type Binary Counter</a>
+        <li><a target="main" href="patterns.html#patterns.type.counters">Patterns - Type Gray Counter</a>
+        <li><a target="main" href="patterns.html#patterns.type.counters">Patterns - Type Johnson Counter</a>
+        <li><a target="main" href="patterns.html#patterns.type.walking">Patterns - Type Walking 0/1</a>
+        <li><a target="main" href="patterns.html#patterns.type.custom">Patterns - Type Custom</a>
+        <li><a target="main" href="patterns.html#patterns.type.constantnumber">Patterns - Type Constant Number</a>
+        <li><a target="main" href="patterns.html#patterns.custom.import">Patterns - Custom Import</a>
+        <li><a target="main" href="patterns.html#patterns.custom.plot">Patterns - Custom Plot</a>
+        <li><a target="main" href="patterns.html#patterns.custom.data">Patterns - Custom Data</a>
+
+        <li><a target="main" href="logic.html">Logic Analyzer</a>
+        <li><a target="main" href="logic.html#logic.menu">Logic - Menu</a>
+        <li><a target="main" href="logic.html#logic.toolbar">Logic - Toolbar</a>
+        <li><a target="main" href="logic.html#logic.trigger">Logic - Trigger</a>
+        <li><a target="main" href="logic.html#logic.grid">Logic - Signal Grid</a>
+        <li><a target="main" href="logic.html#logic.grid.add">Logic - Add</a>
+        <li><a target="main" href="logic.html#logic.grid.remove">Logic - Remove</a>
+        <li><a target="main" href="logic.html#logic.grid.edit">Logic - Edit</a>
+        <li><a target="main" href="logic.html#logic.grid.show">Logic - Show</a>
+        <li><a target="main" href="logic.html#logic.property">Logic - Property Editor</a>
+        <li><a target="main" href="logic.html#logic.edit.signal">Logic - Signal</a>
+        <li><a target="main" href="logic.html#logic.edit.bus">Logic - Bus</a>
+        <li><a target="main" href="logic.html#logic.edit.spi">Logic - SPI</a>
+        <li><a target="main" href="logic.html#logic.edit.i2c">Logic - I2C</a>
+        <li><a target="main" href="logic.html#logic.edit.uart">Logic - UART</a>
+        <li><a target="main" href="logic.html#logic.edit.usart">Logic - USART PS/2</a>
+        <li><a target="main" href="logic.html#logic.edit.can">Logic - CAN</a>
+        <li><a target="main" href="logic.html#logic.edit.i2s">Logic - I2S</a>
+        <li><a target="main" href="logic.html#logic.edit.onewire">Logic - 1-Wire (one wire)</a>
+        <li><a target="main" href="logic.html#logic.edit.hdmicec">Logic - HDMI CEC</a>
+        <li><a target="main" href="logic.html#logic.edit.manchester">Logic - Manchester</a>
+        <li><a target="main" href="logic.html#logic.edit.jtag">Logic - JTAG</a>
+        <li><a target="main" href="logic.html#logic.edit.gpib">Logic - GPIB</a>
+        <li><a target="main" href="logic.html#logic.edit.swd">Logic - SWD</a>
+        <li><a target="main" href="logic.html#logic.view.data">Logic - Data View</a>
+        <li><a target="main" href="logic.html#logic.save">Logic - Export</a>
+
+        <li><a target="main" href="staticio.html">Static IO</a>
+        <li><a target="main" href="staticio.html#staticio.led">Static IO - LED</a>
+        <li><a target="main" href="staticio.html#staticio.button">Static IO - Button</a>
+        <li><a target="main" href="staticio.html#staticio.switch">Static IO - Switch</a>
+        <li><a target="main" href="staticio.html#staticio.slider">Static IO - Slider</a>
+        <li><a target="main" href="staticio.html#staticio.progress">Static IO - Progress Bar</a>
+        <li><a target="main" href="staticio.html#staticio.7seg">Static IO - 7-Segment</a>
+
+        <li><a target="main" href="network.html">Network Analyzer</a>
+        <li><a target="main" href="network.html#network.plot">Network - Bode Plot</a>
+        <li><a target="main" href="network.html#network.view.nichols">Network - Nichols Plot</a>
+        <li><a target="main" href="network.html#network.view.nyquist">Network - Nyquist Plot</a>
+        <li><a target="main" href="network.html#network.export">Network - Export</a>
+        <li><a target="main" href="network.html#network.options">Network - Options</a>
+
+        <li><a target="main" href="spectrum.html">Spectrum Analyzer</a>
+
+        <li><a target="main" href="impedance.html">Impedance Analyzer</a>
+
+        <li><a target="main" href="protocol.html">Protocol</a>
+        <li><a target="main" href="protocol.html#protocol.uart">Protocol - UART</a>
+        <li><a target="main" href="protocol.html#protocol.spi">Protocol - SPI</a>
+        <li><a target="main" href="protocol.html#protocol.i2c">Protocol - I2C</a>
+        <li><a target="main" href="protocol.html#protocol.can">Protocol - CAN</a>
+        <li><a target="main" href="protocol.html#protocol.cec">Protocol - HDMI CEC</a>
+        <li><a target="main" href="protocol.html#protocol.jtag">Protocol - JTAG</a>
+        <li><a target="main" href="protocol.html#protocol.swd">Protocol - SWD</a>
+        <li><a target="main" href="protocol.html#protocol.avr">Protocol - AVR</a>
+        
+        <li><a target="main" href="script.html">Script</a>
+        
+        <li><a target="main" href="start10.html">Analog Discovery 3 (AD3)</a>
+        <li><a target="main" href="start9.html">Discovery Power Supply DPS3340</a>
+        <li><a target="main" href="start8.html">Analog Discovery Pro ADP5250</a>
+        <li><a target="main" href="start7.html">Eclypse Z7 Zmods</a>
+        <li><a target="main" href="start6.html">Analog Discovery Pro ADP3450/ADP3250</a>
+        <li><a target="main" href="start4.html">Digital Discovery</a>
+        <li><a target="main" href="start3s.html">Analog Discovery Studio (ADS)</a>
+        <li><a target="main" href="start3.html">Analog Discovery 2 (AD2)</a>
+        <li><a target="main" href="start2.html">Analog Discovery</a>
+        <li><a target="main" href="start1.html">Electronics Explorer (EE Board)</a>
+        <li>...
+    </ol>
+    
+    <ul id="nothing" style="display:none">
+        <li><i>No results...</i>
+    </ul>
+
+  </body>
+</html>

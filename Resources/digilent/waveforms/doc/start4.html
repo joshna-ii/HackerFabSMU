@@ -1,0 +1,129 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<meta content="text/html; charset=ISO-8859-1" http-equiv="content-type">
+<title>
+Getting started with the Digital Discovery
+</title>
+<link rel="stylesheet" href="style.css" type="text/css" media="all" /> 
+</head>
+<body>
+<h1>Getting started with the Digital Discovery</h1>
+
+<h2>1. Hardware</h2>
+<p>
+To set up the Digital Discovery:</p>
+<ol>
+<li>First, install the Digilent WaveForms software on your PC. See <a href="main.html#main.installer">Installer Details</a> for more information. </li>
+<li>Connect the Digital Discovery to your PC using a USB cable.</li>
+</ol>
+<p><img src="images/start4.board.png"></p>
+<table border="1">
+<tr>
+<th>&nbsp;</th>
+<th>Recommended Operating Conditions</th>
+<th>Absolute Maximum Ratings</th>
+</tr>
+<tr>
+<th align="left">Voltage Supply</th>
+<td>1.2 .. 3.3 V, <100 mA</td>
+<td>0 .. 3.4 V, 100mA</td>
+</tr>
+<tr>
+<th align="left">Digital IOs (DIO24..39) Output</th>
+<td>0 .. 1.2/3.3 V</td>
+<td>0 .. 3.4 V, 16 mA</td>
+</tr>
+<tr>
+<th align="left">Digital IOs (DIO24..39) Input</th>
+<td>0 .. 5 V</td>
+<td>&plusmn; 20 V</td>
+</tr>
+<tr>
+<th align="left">Digital INputs (DIN0..23)</th>
+<td>0 .. 5 V</td>
+<td>&plusmn; 20 V</td>
+</tr>
+</table>
+<p>For more information, visit the <a target="_blank" href="https://digilent.com/reference/test-and-measurement/digital-discovery/start">reference page</a>.</p>
+<p>&nbsp;</p>
+
+<hr>
+<h2>2. WaveForms Software</h2>
+<p>
+See <a href="main.html#main.installer">Installer Details</a> for information on installing WaveForms.</p>
+<p>
+See <a href="main.html">WaveForms</a> for information on using the 
+software.</p>
+<p>&nbsp;</p>
+
+<hr>
+<h2><a name="start4.trouble" id="start4.trouble"></a>3. Troubleshooting</h2>
+<p>In case you receive the error message &quot;Communication with device failed&quot; 
+or &quot;Device configuration failed&quot;:</p>
+<ul>
+<li>Remove all the attached components and wires from the Digital Discovery.</li>
+<li>Verify that the USB cable is attached correctly.</li>
+<li>Reconnect WaveForms to the Digital Discovery and, without opening any instruments, verify that the WaveForms system monitor is displaying voltage and current levels.</li>
+</ul>
+<p>The Digital Discovery's system monitor displays the voltage, current, and temperature. In the main window, click the button in the status bar to show this information.</p>
+<p>
+<img src="images/start.ddiscovery.system.monitor.png"></p>
+<p>When no instrument is running, the device power consumption is around 2 W (400mA). Depending on the usage, consumption can increase subject to the following limitations:</p>
+<ul>
+<li>At 500 mA, the application interface displays a warning because this is the maximum allowed by the USB specification.</li>
+<li>At 1 A, the Digital Discovery device stops in order to prevent damage, and the application displays the &ldquo;Communication with the device failed&rdquo; error message.</li>
+<li>See <a href="#start4.power">Power Supplies</a> for information regarding limitations.</li>
+</ul>
+<p>If you receive the previously mentioned error message, or if the voltage is less than 4.5 V, try the following options:</p>
+<ul>
+<li>Try to use a different USB cable and computer plug.
+<li>Use the USB plug on the back of the PC, not the one on the front panel.
+<li>Use a short cable, do not use a long cable or cable extender.
+<li>Use a powered USB-hub, avoid using an unpowered hub.
+<li>Use a USB-Y cable to load power from two plugs.
+<li>Reduce the current consumption on DVCC.</li>
+</ul>
+<p>The LED on the right of the USB connector (LD1):
+<ul>
+<li><b>blue</b>: Indicates power good or ready. The brightness is initially, before software connection, at maximum level.
+<li><b>green</b>: Indicates active device, software connection or running.
+<li><b>yellow</b>: Indicates active device and VIO output enabled.
+</ul>
+</p>
+<p>The LED on the left side of the USB connector (LD2):
+<ul>
+<li><b>white</b>: Indicates Logic Analyzer trigger.
+<li><b>blue</b>: Indicates auto triggering.
+</ul>
+The LED is lit during Logic Analyzer triggered state, from triggered until done, but for a minimum of 166ms in order to show short captures too.<br>
+It the capture is long or the rate is high the led will stay lit for longer.<br>
+The Protocol tool also uses the Logic Analyzer resource and its triggering mechanism so it may be lit also when using this tool.</p>
+<p>&nbsp;</p>
+
+<hr>
+<h2><a name="start4.power" id="start4.power"></a>4. Power Supplies</h2>
+<p>The Digital Discovery digital voltage can be adjusted in the Supplies interface between 1.2 and 3.3 V. This applies to the voltage output and DIO channel's logic high level. In parallel with this, the input logic threshold for DIO and DIN is also changed.</p>
+<p><strong>Specifications</strong>:</p>
+<ul>
+<li>The positive power supply voltage output range is from 0 to 3.3 V.
+<li>The output on VIO pins is limited to 100 mA. The actual over and under current limits are 150mA and -18mA. </ul>
+<p>&nbsp;</p>
+
+<hr>
+<h2>5. Digital I/O</h2>
+<p>The Digital Discovery has 24 digital inputs (DIN 0-23) and 16 digital I/Os (DIO 24-39).</p>
+<p><strong>Specifications</strong>:</p>
+<ul>
+<li>The DIO pin's logic high level depends on the digital voltage, which can be adjusted in the Supplies interface between 1.2 and 3.3 V.
+<li>The input logic threshold for both DIO and DIN depends on the set digital voltage, it is between 0.58 and 1.42V.
+<li>The DIO pins have an adjustable drive strength between 2 and 16 mA and 10 k&#8486; pull-up/down for each pin.
+<li>The pins can output push-pull (PP), open-drain (OD), open-source (OS), and three-state (TS) signals. For OD and OS signals, the pull-up or pull-down can be configured in the Power Supplies interface.
+<li>The Pattern Generator frequency is 100 MHz and the custom buffer size is 32 Ki samples per channel. 
+<li>The Logic Analyzer device buffer is 256 MiBytes, which can be used in the following combinations: 200 MHz DIN0.23 DIO24.31 64 MiS, 400 MHz DIN0.15 128 MiS, 800 MHz DIN0.7 256 MiS, 200 MHz DIO24.39 DIN0.15 64 MiS, 400 MHz DIO24.39 128 MiS, 800 MHz DIO24.31 256 MiS. Having the Noise option checked, half of the buffer is used  for storing noise marks, which are represented with gray shade in the plots. The  noise means more than one transition between two acquisition samples.
+</ul>
+
+<p>&nbsp;</p>
+
+</body>
+</html>

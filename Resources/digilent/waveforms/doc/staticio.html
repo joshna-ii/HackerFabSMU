@@ -1,0 +1,77 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+  <head>
+    <meta content="text/html; charset=ISO-8859-1" http-equiv="content-type">
+    <title>Static Input/Output</title>
+    <link rel="stylesheet" href="style.css" type="text/css" media="all" /> 
+  </head>
+  <body>
+    <h1>Static Input/Output</h1>
+    <p>The Static Input/Output (Static I/O) instrument allows easy configuration of input and output devices on the digital lines. It is called &ldquo;static&rdquo; because the value from the digital lines corresponds directly to the values generated or read by the input and output devices. Once a signal value is set, it remains in that state until a new value is set.</p>
+	
+	<p><img src="images/staticio.png"></p>
+	<p>&nbsp;</p>
+    
+    <p>See <a href="main.html#main.menus">Menu Strips</a> in Common Interfaces.<br>
+	<p>&nbsp;</p>
+    
+	<h2><a name="staticio.group" id="patterns.group"></a>1. Groups</h2>
+    <p>The Static I/O controls the digital signals of the device, which are managed in groups of eight: 31-24, 23-16, 15-8, and 7-0. The number of I/O signals depends on the device.</p>
+	<p><img src="images/staticio.group.png"></p>
+    <p>The group type is selected using the group menu. For each line group, the following types can be set: <a href="#staticio.bitio"><b>Bit I/O</b></a>, <a href="#staticio.slider"><b>Slider</b></a>, <a href="#staticio.progress"><b>Progress bar</b></a>, or <a href="#staticio.7seg"><b>7 Segment</b></a>.</p>
+    <p>&nbsp;</p>
+    
+	<h2><a name="staticio.bitio" id="patterns.bitio"></a>2. Bit I/O</h2>
+    <p>This group assigns a specific control for each of the eight signals in the group. The controls include: <a href="#staticio.led"><b>LED</b></a>, <a href="#staticio.button"><b>Button</b></a>, and <a href="#staticio.switch"><b>Switch</b></a>.</p>
+	<p><img src="images/staticio.bitio.png"></p>
+    <p>&nbsp;</p>
+    
+	<h3><a name="staticio.led" id="patterns.led"></a>2.1. LED</h3>
+    <p>This is an input device, indicating the digital line's state.</p>
+	<p><img src="images/staticio.led.png"></p>
+    <p>&nbsp;</p>
+    
+	<h3><a name="staticio.button" id="patterns.button"></a>2.2. Button</h3>
+    <p>This is both an input and output device, implementing a push button with LED indicator. The button has two states: pressed and released.</p>
+    <p>The button types select the output for released and pressed states.</p>
+	<p><img src="images/staticio.button.png"> <img src="images/staticio.button2.png"></p>
+    <p>&nbsp;</p>
+    
+	<h3><a name="staticio.switch" id="patterns.switch"></a>2.3. Switch</h3>
+    <p>This is both an input and output device, implementing a push/pull switch with LED indicator.</p>
+	<p><img src="images/staticio.switch.png"> <img src="images/staticio.switch2.png"></p>
+    <p>&nbsp;</p>
+    
+    <h2><a name="staticio.slider" id="patterns.slider"></a>3. Slider</h2>
+    <p>The slider configures the eight digital lines according to either the value of the cursor's position or the value entered in the value field. The value is used as an 8-bit binary representation where the highest number digital line is the most significant bit (MSB) and each digital line gets the value of the corresponding bit.</p>
+	<p><img src="images/staticio.slider.png"></p>
+    <p>&nbsp;</p>
+    
+    <h2><a name="staticio.progress" id="patterns.progress"></a>4. Progress Bar</h2>
+    <p>This type implements an input device used in displaying values between 0 and 255 as a progress bar and value display. The digital values of the eight input lines are converted into a value between 0 and 255. The digital lines' binary values are used as bits in a binary representation where the highest number digital line is the most significant bit (MSB).</p>
+	<p><img src="images/staticio.progress.png"></p>
+    <p>&nbsp;</p>
+    
+    <h2><a name="staticio.7seg" id="patterns.7seg"></a>5. 7-Segment</h2>
+    <p>This type implements an input device for displaying a seven-segment digit and a decimal point. Each of the eight digital lines correspond to one of the segments or the decimal point, according to the legend displayed below.</p>
+	<p><img src="images/staticio.7seg.png"></p>
+    <p>&nbsp;</p>
+    
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+  </body>
+</html>

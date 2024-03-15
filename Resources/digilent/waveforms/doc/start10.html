@@ -1,0 +1,270 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<meta content="text/html; charset=ISO-8859-1" http-equiv="content-type">
+<title>
+Getting started with the Analog Discovery 3
+</title>
+<link rel="stylesheet" href="style.css" type="text/css" media="all" /> 
+</head>
+<body>
+<h1>Getting started with the Analog Discovery 3</h1>
+
+<h2>1. Hardware</h2>
+<p>
+To set up the Analog Discovery 3:</p>
+<ol>
+<li>First, install the Digilent WaveForms software on your PC. See <a href="main.html#main.installer">Installer Details</a> for more information. </li>
+<li>Connect the Analog Discovery 3 to your PC using a USB cable and optional connect 5 V DC auxiliary supply. </li>
+</ol>
+<p>
+<img src="images/start10.board.png"></p>
+<p>
+Pin-out:</p>
+<p><img src="images/start10.pinout.png"></p>
+<table border="1">
+<tr>
+<th>&nbsp;</th>
+<th>Recommended operating conditions</th>
+<th>Absolute ratings</th>
+</tr>
+<tr>
+<th align="left">Oscilloscope (1+,1-,2+,2-)</th>
+<td>&plusmn;50 V differential, &plusmn;25 V single ended, 1M&#8486;|24pF</td>
+<td>&plusmn;50 V </td>
+</tr>
+<tr>
+<th align="left">Wavegen (W1,W2)</th>
+<td>&plusmn;5 V, &le;30 mA, 0R</td>
+<td>&plusmn;10 V, 40 mA</td>
+</tr>
+<tr>
+<th align="left">Power Supplies (V+,V-)</th>
+<td>0.5 ... 5 V, -0.5 ... -5 V, 0.8A/channel</td>
+<td>+6 V, -6 V, 1.6A/channel</td>
+</tr>
+<tr>
+<th align="left">&nbsp;&nbsp;&nbsp;Voltage Readback</th>
+<td>-15V ... +15V</td>
+<td>-15V ... +15V</td>
+</tr>
+<tr>
+<th align="left">&nbsp;&nbsp;&nbsp;USB powered</th>
+<td>0.6W-5.5W total</td>
+<td>depends on the port</td>
+</tr>
+<tr>
+<th align="left">&nbsp;&nbsp;&nbsp;Auxiliary powered</th>
+<td>10W total</td>
+<td>15W total</td>
+</tr>
+<tr>
+<th align="left">Digital IOs, Triggers (T1,T2,0,1...15)</th>
+<td>LVCMOS 3.3 V, 4-16 mA, slow-fast, pull Z-0-1-K</td>
+<td>&plusmn; 20 V</td>
+</tr>
+<tr>
+<th align="left">USB Supply</th>
+<td>5V, 0.9 ... 3A</td>
+<td>4.5V ... 5.5V</td>
+</tr>
+<tr>
+<th align="left">Auxiliary Supply (5VDC)</th>
+<td>5V, 4A, 20W</td>
+<td>4.5V ... 5.5V, 3.1A, 15.5W</td>
+</tr>
+</table>
+<p>For more information visit the Analog Discovery 3 <a target="_blank" href="https://digilent.com/reference/test-and-measurement/analog-discovery-3/start">reference page</a>.</p>
+<p>&nbsp;</p>
+<hr>
+<h2>2. WaveForms Software</h2>
+<p>
+See <a href="main.html#main.installer">Installer Details</a> for information on installing WaveForms.</p>
+<p>
+See <a href="main.html">WaveForms</a> for information on using the software.</p>
+<p>&nbsp;
+</p>
+<hr>
+<h2><a name="start10.trouble" id="start10.trouble"></a>3. Troubleshooting</h2>
+<p>If the device is not detected by WaveForms application or experience random disconnects usually indicates contact problem. In this case, try using the original USB cable the device or other USB cables you have at hand, try using other USB port and hub, try other computer or 5V DC auxiliary supply for the device.</p>
+<p>If you receive the error message &quot;Communication with device failed&quot; or &quot;Device configuration failed&quot;:</p>
+<ul>
+<li>Remove all the attached components and wires from the Analog Discovery 3.</li>
+<li>Verify that the USB cable is attached correctly.</li>
+<li>Reconnect WaveForms to the Analog Discovery 3 and, without opening any instruments, verify that the WaveForms system monitor is displaying voltage and current levels.</li>
+</ul>
+<p>The Analog Discovery 3's system monitor displays the voltage, current, and temperature. In the main window, click the button in the status bar to show this information.</p>
+<p>
+<img src="images/start10.system.monitor.png"></p>
+<p>When no instrument is running, the device power consumption is around 3.33 W (666mA). Depending on the usage, consumption can increase subject to the following limitations:</p>
+<ul>
+<li>The USB and AUX supplies are equipped with eFuse with 3.1 A current limitation. The devices shuts down in order to prevent damage, and the application displays the &ldquo;Communication with the device failed&rdquo; error message.</li>
+<li>See <a href="#start10.power">Power Supplies</a> for information regarding limitations.</li>
+</ul>
+<p>If you receive the previously mentioned error message, or if the voltage is less than 4.5 V, try the following options:</p>
+<ul>
+<li>Try to use 5 V DC 4 A power supply.
+<li>Try to use a different USB cable and computer plug.
+<li>Use the USB plug on the back of the PC, not the one on the front panel.
+<li>Use a short cable, do not use a long cable or cable extender.
+<li>Use a powered USB-hub, avoid using an unpowered hub.
+<li>Reduce the current consumption on AWG, V+, and/or V-.</li>
+</ul>
+<p>The LED on the back of the device next to the USB connector:<ul>
+<li><b>dimly lit</b> when powered but not active, indicating power good on the device digital rails.</li>
+<li><b>fully lit</b> when active, indicating power good on the analog rails.</li>
+</ul></p>
+
+
+<p>&nbsp;</p>
+<hr>
+
+<h2><a name="start10.frequency" id="start10.frequency"></a>
+4. System Frequency</h2>
+<p>The system clock is adjustable between 50 and 125MHz. This will be the base frequency used for Oscilloscope, Wavegen, Logic Analyzer and Pattern Generator. Each instrument or channel rate will be derived from this frequency.</p>
+<p><img src="images/start10.options.png"><img src="images/start10.options1.png"><img src="images/start10.options2.png"><img src="images/start10.options3.png"></p>
+<p>The internal clock can be scaled down and output on Trigger 1 and 2. The Trigger 1 input can be used as reference clock for the device.</p>
+<p><img src="images/start10.pll.png"></p>
+<p>To use external reference clock:
+<ul>
+<li>set Trigger 1 to be <i>Input</i> and provide 10-50 MHz
+<li>set <i>Clocking</i> to <i>Trigger 1 Input</i>
+<li>specify the <i>External</i> frequency
+<li>the <i>Phase</i> option can be used for fine adjustment of system clock in 4-10 steps, depending on the system frequency.
+</ul>
+</p>
+<p>To use two Analog Discovery 3 devices together:
+<ul>
+<li>connect <i>Trigger 1</i> and <i>Trigger 2</i> between the devices
+<li>in the WaveForms Device Manager select one of the AD3, press "Select + Dual" button and select the other AD3
+<li>the Trigger 1 will be used for reference clock
+<li>the Trigger 2 will be used for instrument synchronization
+<li>Use the <i>Phase</i> option to have stable triggering between the devices. The optimal value depends on the specified frequencies and the used wiring.
+</ul>
+</p>
+<p>To use multiple devices together with separate WaveForms applications, custom application or script:
+<ul>
+<li>connect <i>Trigger 1</i> between the devices
+<li>on one device set <i>Clocking</i> to output <i>Trigger 1 Output</i> and on the others to be <i>Trigger 1 Input</i>
+<li>configure the same <i>Frequency</i> and <i>External</i> for each device
+</ul>
+</p>
+<p>A dedicated low-jitter PLL (CDCE6214) is used to drive the ADC and DAC.<br>
+In standalone and master mode the CDCE6214 uses a local 25 MHz oscillator, providing to ADC a clock with less than 3ps jitter in 50Hz and 20MHz range.<br>
+A PLL in the FPGA is used to generate internal clocks, and also a low frequency clock which can be adjusted between 10 and 50MHz, and optionally output on the Trigger IOs.<br>
+The device can also be used in slave mode with external reference clock of 10-50MHz applied to Trig1, bypassing the FPGA and driving the CDCE6214. The minimum input reference frequency for the CDCE6214 is 10MHz. In this mode we measured less than 4ps jitter on ADC clock relative to the reference clock.</p>
+<p><img src="images/start10.clock.png"></p>
+<p>&nbsp;</p>
+<hr>
+
+<h2><a name="start10.oscilloscope" id="start10.oscilloscope"></a>
+5. Oscilloscope</h2>
+<p>The Analog Discovery 3 has two differential oscilloscope input channels.</p>
+<p><strong>Specifications</strong>:</p>
+<ul>
+<li>The 0.5dB input bandwidth is 10 MHz.</li>
+<li>The positive and negative inputs have an impedance to ground of 1 M&#8486; in parallel with 24 pF.</li>
+<li>The ADC is 14 bits and 125 MSps, Texas Instruments ADC3644.</li>
+<li>The samples are stored in 16bits format which is useful for lower sample rate and average sampling mode. This gives at 62.5/50MHz 15bit and 31.25/25MHz (or lower) 16bits resolution.</li>
+<li>The absolute maximum input voltage is &plusmn;50 V.</li>
+<li>The buffer can be up to 64Ki (default 32Ki) samples shared betwee the enabled channels. When no channel is enabled the two real channels will capture.</li>
+<li>The inputs have two gain stages, providing ~3 mV and ~300 uV resolution, with 16 bit average sampling ~750 uV and ~75 uV, or even lower ~0.75 uV with 'Full Scale' 'Sample mode'.
+<br>
+<table border="1">
+<tr>
+<td>&nbsp;</td>
+<td><b>Low Range</b></td>
+<td><b>High Range</b></td>
+</tr>
+<tr>
+<td><b>Range</b></td>
+<td >&nbsp;&lt;= 500 mV/div&nbsp;</td>
+<td >&nbsp;&gt; 500 mV/div</td>
+</tr>
+<tr>
+<td ><b>Differential input voltage</b></td>
+<td >&nbsp;-5 V to +5 V</td>
+<td > &nbsp;N/A</td>
+</tr>
+<tr>
+<td><b>Common mode input voltage</b></td>
+<td>&nbsp;-20 V to +5 V</td>
+<td> &nbsp;N/A</td>
+</tr>
+<tr>
+<td><b>Positive and negative input voltage to GND</b></td>
+<td> &nbsp;N/A</td>
+<td>&nbsp;&plusmn;25 V</td>
+</tr>
+</table></li>
+<li>There are two in-device Filter (FIR) channels of 16 taps.
+<li>The Wavegen channel outputs can be captured using in-device digital loopback or analog readback (of 8ms resolution) for the power supply channels.
+<li>The Recording, streaming data over USB can work up to 10-12 M samples/s.<br>To maximize the recording rate: enable only the needed Scope channel(s), select the 2nd device configuration to have more device buffer/fifo, use a USB port on root hub which is not shared with other devices, stop or close other applications that could increase the system (CPU, memory) usage.
+<li>For more information visit the <a target="_blank" href="https://digilent.com/reference/test-and-measurement/analog-discovery-3/reference-manual">resource center</a></li>
+</ul>
+<p><img src="images/start10.adc.png"></p>
+
+<p>&nbsp;</p>
+<hr>
+
+<h2>6. Arbitrary Waveform Generator</h2>
+<p>The Analog Discovery 3 is equipped with two Arbitrary Waveform Generators channels.</p>
+<p><strong>Specifications</strong>:</p>
+<ul>
+<li>The 0.5dB output bandwidth is 4 MHz.</li>
+<li>The output impedance is zero.</li>
+<li>The drive current depends on voltage, at lest 30mA and at most 40mA.</li>
+<li>The DAC is 14 bits and 125 MSps, Texas Instruments DAC5672.</li>
+<li>The maximum output is 10 Vpk2pk, between -5 V and +5 V.</li>
+<li>The output buffer is supplied at &plusmn;10V so the output voltage can reach close to these values (offset+amplitude) but the recommended usage range is &plusmn;5V where it can provide at least 30mA.</li>
+<li>The resolution is ~0.7 mV for amplitudes above 1 V, and ~0.18 mV for amplitudes of 1 V and lower.</li>
+<li>When a channel is closed or disabled, the output is not in high impedance but close to 0 V.</li>
+<li>The carrier buffer size is 16 Ki samples with the 1st (default) device configuration and 16 Ki with the 3rd configuration.
+<li>The AM/PM and FM/SUM buffer size is 2 Ki samples with most of the device configurations and 8Ki with the 6th configuration on two channels.</li>
+<li>The power supplies can also be used as slow AWG channels.</li>
+<li>The Oscilloscope inputs (raw ADC, averaged or filtered samples) can be used as source signal, amplitude or frequency modulation.</li>
+<li>For more information visit the <a target="_blank" href="https://digilent.com/reference/test-and-measurement/analog-discovery-3/reference-manual">resource center</a></li>
+</ul>
+<p><img src="images/start10.dac.png"></p>
+<p>&nbsp;</p>
+
+<hr>
+<h2><a name="start10.power" id="start10.power"></a>
+7. Power Supplies</h2>
+<p>The Analog Discovery 3 has two adjustable power supplies.</p>
+<p><strong>Specifications</strong>:</p>
+<ul>
+<li>The positive power supply voltage output range is from 0.5 to 5 V.
+<li>The negative power supply voltage output range is from 0.5 to -5 V.
+<li>The voltage readbacks have a range of &plusmn; and 130ms refresh rate, additional 8ms rate is available in Oscilloscope as More/Wavegen channel 3 and 4.
+<li>The power supplies have a total power limit option that can be adjusted from 0.6 W to 15 W. The actual output power will be less than this due to losses in the regulators. The Auto option automatically sets the limit based on USB capabilities or the presence of an AUX supply.
+<li>With high power load, specially above 10W the device could overheat. In this case the device will be stopped automatically and error message displayed.
+</ul>
+<p>The power supplies can be used as slow AWG channels, see Wavegen channel 3 and 4.</p>
+<p><img src="images/start3.pwg.png"></p>
+
+<p>The power tree of the device contains 4 electronic fuses and several regulators.<br>
+The first 2 monitor the USB and AUX voltage and current. The USB supply is by default disabled when the AUX is supplied, see device options "USB Power". With the default "USB Power" "Stop with AUX" option, removing AUX will reset the device. With the "Always ON" option, the device does not restart and will wrongly indicate the USB voltage after disconnecting the AUX due to the minimal back-power of the AUX eFuse.<br>
+The internal device power rails are split in digital and analog. The 3rd eFuse is internally used to enable the analog rails.<br>
+The 4th eFuse for the &plusmn;5V supplies is used as master enable switch, to monitor and set the total power limit.</p>
+<p><img src="images/start10.power.png"></p>
+<p>&nbsp;</p>
+<hr>
+
+<h2>8. Digital I/O</h2>
+<p>The Analog Discovery 3 has 16 Digital I/O (DIO 0-15) and 2 Trigger I/O channels.</p>
+<p><strong>Specifications</strong>:</p>
+<ul>
+<li>The channels are supplied at 3.3 V, LVCMOS3V3 standard.
+<li>The drive strength is adjustable in steps 4, 8, 12 and 16 mA; slow or fast slew rate; applied the same for all DIOs and Trigger IOs
+<li>Common pull option of about 200uA for all DIO and Trigger IO channels is selectable between: pullup, pulldown, keeper or none.
+<li>The channels have a 220&#8486; series PTC thermistor (PRG18BB221MB1RB) and ESD diodes (DB3S406F) to GND and 3.3V, having protection between -20 V and +20 V.
+<li>The Logic Analyzer buffer can be up to 32 Ki samples / channel (default is 16 Ki). 
+<li>The Pattern Generator custom buffer can be up to 32 Ki samples / channel (default is 2 Ki). 
+</ul>
+<p><img src="images/start10.dio.png"></p>
+
+<p>&nbsp;</p>
+
+</body>
+</html>

@@ -1,0 +1,391 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<meta content="text/html; charset=ISO-8859-1" http-equiv="content-type">
+<title>
+Protocol
+</title>
+<link rel="stylesheet" href="style.css" type="text/css" media="all" /> 
+</head>
+<body>
+<h1>
+Protocol
+</h1>
+<p>The Protocol interface uses the device Digital Pattern Generator and Logic Analyzer resources to transfer data using UART, SPI, I2C, CAN, CEC, SWD protocols, and to program AVR MCUs.</p>
+<p>When the Logic Analyzer option is enabled, the Logic Analyzer can be used to investigate the signals. In this case, the Protocol instrument will not receive data, it will only send data.</p>
+
+<p>Under the View menu the following can be adjusted:
+<ul>
+<li><b>Max Lines</b>: specifies the maximum number of lines to be displayed. This to prevent application slowdown.
+<li><b>Stamp</b>: selects the time, date-time or no stamp for Spy logs.
+<li><b>Line Wrap</b>: select to use line wrapping.
+</ul><br>
+<img src="images/protocol.view.png"></p>
+
+<p>&nbsp;</p>
+
+
+<h2><a name="protocol.uart" id="protocol.uart"></a>
+1. UART</h2>
+<p>The UART interface can be used to receive and to send data. <br>
+The Spy mode lets you decode the selected TX and RX lines.<br>
+The Send & Receive mode lets you send data over TX and receive from the selected RX line.</p>
+<p><img src="images/protocol.uart.png"></p>
+<p>The UART settings contain the following:
+<ul>
+<li><b>TX</b>/<b>RX:</b> selects the digital signal used to transmit and to receive data.</li>
+<li><b>TXFormat:</b> selects between text and number input format for TX entry filed.</li>
+<li><b>RXFormat:</b> selects between text, binary, decimal and hexadecimal format for the RX log field.</li>
+<li><b>Polarity:</b> selects between standard and inverted signal polarity.</li>
+<li><b>Bits:</b> specifies the number of data bits in a transmission word.</li>
+<li><b>Parity:</b> selects between Odd, Even, Mark (High), and Space (Low) parity modes.</li>
+<li><b>Stop:</b> specify the stop length in bits.</li>
+<li><b>Rate:</b> specifies the speed or bits per second.</li>
+<li><b>Ending:</b> selects the line ending between nothing, carriage return, line feed, CR LF, LF CR, and Custom.</li>
+</ul>
+</p>
+<p>The custom ending accepts text with printable and escape characters \x## (hex digit) \\ \a \b \e \f \n \v \t \r \' \" \?<br>
+<img src="images/protocol.uart.ending.png">
+</p>
+<p>The TX field contains a text box to type the characters to send. With Auto option, the typed characters are immediately sent, or by pressing the Send button. The enter key will send entered text and the selected line ending. Checking the Escape option will accept escape characters. The Send File button will send the file content.</p>
+<p>The RX field contains the enable button to receive data and the option to print the sent TX data as well. The received data is printed with black, the sent with green, and eventual errors with red. The unprintable characters codes are displayed between braces.</p>
+<p>&nbsp;</p>
+
+<h2><a name="protocol.spi" id="protocol.spi"></a>
+2. SPI</h2>
+<p>The SPI interface can be used to decode data transmission or as protocol master controller. It allows sending and receiving data in single, dual, and quad modes. The select signal is activated from software, therefore it does not have exact timing with the bit serialization. The larger transfers with more bits than the custom Patterns or Logic Analyzer device buffer are split to separate transfers.<br>
+On the Analog Discovery, the Patterns buffer size is 1k or 16k bits, and the Logic is 4k or 16k bits.</p>
+<p>The SPI settings contain the following:
+<ul>
+<li><b>Select:</b> specifies the slave or chip select signal with low or high active level.</li>
+<li><b>Clock:</b> specifies the clock signal.</li>
+<li><b>Polarity</b>/<b>Phase:</b> selects the polarity and phase.</li>
+<li><b>Frequency:</b> specifies the clock signal frequency.</li>
+<li><b>DQ#:</b> specifies the data signals, DQ0-MOSI, DQ1-MISO, and DQ2/3 used in quad SPI mode.</li>
+<li><b>First bit:</b> selects the bit transmission order, Most or Least Significant bit first.</li>
+<li><b>First word:</b> selects the word transmission order, Most or Least Significant word first.</li>
+<li>Gear menu:</li>
+<ul>
+<li><b>Format:</b> selects the data representation between: Binary, Decimal, Hexadecimal, and ASCII.</li>
+<li><b>Delay:</b> specifies the delay between words. It is not used in dual and quad modes.</li>
+<li><b>Glitch filter:</b> enables filter for reception, slave and master transfers to eliminate glitches on the clock signal. The specified frequency is used to filter glitches at 10%, like for 100kHz pulses shorter than 1us will be ignored.</li>
+<li><b>Initial DQ#:</b> selects the initial drive of the data signals.</li>
+</ul>
+</ul>
+</p>
+<p><img src="images/protocol.spi.spy.png"></p>
+<p>The Spy mode lets you decode SPI communication.<br>
+The <b>Multi Select</b> makes possible to interpret setups with multiple Chip Select signals, common Clock and Data. When enabled, it overrides the Select setting above.<br>
+The <b>Multi MISO</b> makes possible to interpret setups with multiple Data/MISO signals, common Select and Clock. It is supported in Three-wire (SISO) and Standard (MISO/MISO) modes. When enabled, it overrides DQ0 or DQ1.<br>
+The <b>Mode</b> option selects between Three-wire, Standard, Dual and Quad modes. The command option lets you specify the number of bits which are transmitted after select activation only over DQ0. The Data Bits specifies the number of bits in a data word.<br>
+The <b>Command Bits</b> is to interpret the first bits for the SPI transfer as command bits on DQ0/MOSI. The <b>Dummy</b> bits is to ignore the following bits. The <b>Data Bits</b> specifies the bit grouping to words.<br>
+The Flash mode interprets P5Q and M25P16 flash instruction codes with address and dual/quad data transfers.
+The gear dropdown menu contains option to enable Timestamp.</p>
+<p><img src="images/protocol.spi.simple.png"></p>
+<p>The Master mode lets you create simple transmissions and contains the following options:
+<ul>
+<li><b>Mode:</b> selects the transmission mode between Read Write to DQ0 from DQ1, Read from DQ1 MISO, Write to DQ0 MOSI, Read0 from DQ0 in 3-wire SPI mode, Dual/Quad Read/Write.</li>
+<li><b>Command:</b> specifies the command word(s), which will be sent on DQ0 before the coming read or write operation.</li>
+<li><b>&nbsp;&nbsp;&nbsp;Bits:</b> specifies the command word length.</li>
+<li><b>&nbsp;&nbsp;&nbsp;Dummy:</b> specifies the number of following dummy bits.</li>
+<li><b>Word bits:</b> specifies the word length.</li>
+<li><b>Words:</b> shows the number of words for write or specifies for read transfer.</li>
+<li><b>Write:</b> specifies the word(s) to send in binary, decimal, or hexadecimal format. The data can be imported from binary or text file using the Open button.</li>
+<li><b>Read:</b> shows the read word(s). The data can be saved to binary or text file using the Save or Append buttons.</li>
+</ul>
+</p>
+<p><img src="images/protocol.spi.custom.png"><br>
+The Custom mode lets you write communication script with the following functions:
+<ul>
+<li><b>Start():</b> Activates the select signal. Return true on success, otherwise returns false. If not called, the Select is activated automatically with hardware timing for each Read/Write transfer.
+<li><b>Stop():</b> Deactivates the select signal. Return true on success, otherwise false.
+<li><b>ReadWrite(</b> bits per word , { word1, word2... | [word1, word2...] } <b>):</b> 4-wire SPI data transfer. Returns the read array of words.
+<li><b>Write(</b> bits per word , { word1, word2... | [word1, word2...] } <b>):</b> 3- or 4-wire SPI data write. Returns true on success, otherwise returns false.
+<li><b>Read(</b> bits per word , number of words to read<b>):</b> 4-wire SPI data read. Returns the read array of words from DQ1.
+<li><b>Read0(</b> bits per word , number of words to read<b>):</b> 3-wire SPI data read. Returns the read array of words from DQ0.
+<li><b>WriteDual(</b> bits per word , { word1, word2... | [word1, word2...] } <b>):</b> Dual SPI data write to DQ0,1. Returns true on success, otherwise return false.
+<li><b>ReadDual(</b> bits per word , number of words to read <b>):</b> Dual SPI data read from DQ0,1. Returns the read array of words.
+<li><b>WriteQuad(</b> bits per word , { word1, word2... | [word1, word2...] } <b>):</b> Quad SPI data write to DQ0,1,2,3. Returns the read array of words.
+<li><b>ReadQuad(</b> bits per word , number of words to read <b>):</b> Dual SPI data read from DQ0,1,2,3. Returns the read array of words.
+<li><b>CmdReadWrite(</b> bits per command , cmd , dummy bits , bits per word , { word1, word2... | [word1, word2...] } <b>):</b> 4-wire SPI data transfer. Returns the read array of words.
+<li><b>CmdWrite(</b> bits per command , cmd , dummy bits , bits per word , { word1, word2... | [word1, word2...] } <b>):</b> 3- or 4-wire SPI data write. Returns true on success, otherwise returns false.
+<li><b>CmdRead(</b> bits per command , cmd , dummy bits , bits per word , number of words to read<b>):</b> 4-wire SPI data read. Returns the read array of words from DQ1.
+<li><b>CmdRead0(</b> bits per command , cmd , dummy bits , bits per word , number of words to read<b>):</b> 3-wire SPI data read. Returns the read array of words from DQ0.
+<li><b>CmdWriteDual(</b> bits per command , cmd , dummy bits , bits per word , { word1, word2... | [word1, word2...] } <b>):</b> Dual SPI data write to DQ0,1. Returns true on success, otherwise return false.
+<li><b>CmdReadDual(</b> bits per command , cmd , dummy bits , bits per word , number of words to read <b>):</b> Dual SPI data read from DQ0,1. Returns the read array of words.
+<li><b>CmdWriteQuad(</b> bits per command , cmd , dummy bits , bits per word , { word1, word2... | [word1, word2...] } <b>):</b> Quad SPI data write to DQ0,1,2,3. Returns the read array of words.
+<li><b>CmdReadQuad(</b> bits per command , cmd , dummy bits , bits per word , number of words to read <b>):</b> Dual SPI data read from DQ0,1,2,3. Returns the read array of words.
+<li><b>DQ#.Initial.text:</b> Lets you specify the initial values.
+<li><a name="protocol.spi.dio" id="protocol.spi.dio"></a><b>DIO.:</b> Lets you set (the ones are not declared as SPI signal) and read the digital pins.
+<ul>
+<li><i>DIO.Set(DIO index 0..31, value 0/1/-1)</i> value of -1 disables output, turns to high impedance the respective DIO channel</li>
+<li><i>DIO.Get()</i> returns array with DIO input values, array index corresponds to DIO index</li>
+<li><i>DIO.Clear()</i> resets the earlier configured outputs, turns all to high impedance channels</li>
+</ul>
+<li>Besides these, you can access the SPI settings like <b>Select</b>, <b>Clock</b>, etc.</ul>
+Under the examples menu, you can find scripts for some Pmods/ICs.<br>
+The SPI can also be controlled from the <a href="script.html#script.protocol.spi">Script tool</a>.
+</p>
+<p><img src="images/protocol.spi.sensor.png"><br>
+The Sensor mode lets you write communication script, which will be executed at precise timing with the following functions:
+<ul>
+<li><b>initialize():</b> Function called at the beginning of script execution. It is useful to initialize the device and storage files.
+<li><b>loop():</b> Function called for specified number of <b>Iterations</b> and at specified <b>Rate</b>. It is useful to collect, decode, and store sensor data. Use only static data transfer calls!
+<li><b>finish():</b> Function called at the end of script execution. It is useful to send terminate commands to the device, summarize measurements, etc.
+</ul>
+When the Sensor is executed, first the loop function is called to build the transmission bit sequence without performing it on the device. The bit sequence length is limited by the device Pattern or Logic buffer size. After the initialize function, the loop transmission sequence is performed for the given number of iterations, then the loop function is called to decode the received data, and finally the finish function is called. 
+</p>
+<p>&nbsp;</p>
+
+<h2><a name="protocol.i2c" id="protocol.i2c"></a>
+3. I2C</h2>
+<p>The I2C interface can be used to decode data transmission or as protocol master controller. The transfer length is limited to the custom Patters or Logic Analyzer device buffer size. The read operations with sub-address use restart and transfer length is limited to less than half of the device buffer size. The write operations aren't stopped on not acknowledge, but the appropriate error is shown in the software.</p>
+<p>The I2C settings contain the following:
+<ul>
+<li><b>SCL:</b> specifies the clock signal.</li>
+<li><b>SDA:</b> specifies the data signal.</li>
+<li><b>Frequency:</b> specifies the clock signal frequency.</li>
+<li><b>Clock Stretching:</b> enables the support for I2C clock stretching</li>
+<li>Gear menu:</li>
+<ul>
+<li><b>Format:</b> selects the data representation between Binary, Decimal, Hexadecimal, and ASCII.</li>
+<li><b>NAK last read byte:</b> the I2C specifications require master NAK after last read byte, but some devices require ACK</li>
+</ul>
+</ul>
+</p>
+<p><img src="images/protocol.i2c.spy.png"></p>
+<p>The Spy/Slave mode lets you decode I2C communication and to setup a slave I2C device.<p>
+<p>The Slave group contains button to start a single or repeated I2C slave. The address filed expects 7bit value or to respond to any address. The WR specifies the number of write bytes acknowledge or unlimited number. Zero will NACK the address write, 1 after the first data byte... The RD field expects decimal, hexadecimal (0xAD or hAD), binary (b10101101) values separated by space, comma, dot, double dot or tab, and characters when the Format is set to ASCII.
+<p>The receiver can be started printing the decoder transactions in the text area or direct writing to file. The Filter option lets you specify the address and (read or write) operation which to log.<br>
+The Glitch filter enables frequency filter for reception to eliminate glitches on the signals. The specified frequency is used to filter glitches at 10%, like for 100kHz pulses shorter than 1us will be ignored.<br>
+The gear dropdown menu contains option to enable Timestamp.</p>
+<p><img src="images/protocol.i2c.simple.png"></p>
+<p>The Master mode lets you create simple transmissions and contains the following options:
+<ul>
+<li><b>Address:</b> specifies 7-bit I2C address.</li>
+<li><b>SubAddress:</b> specifies I2C sub-address that will lead the write operations and it will be written before read operation with restart.</li>
+<li><b>Read / Bytes:</b> executes the read operation for the specified number of bytes. The read data byte(s) are show in the row below and can be saved to binary or text file using the Save or Append buttons.</li>
+<li><b>Write / Bytes:</b> executes the write operation of given bytes specified in the field below in binary, decimal, or hexadecimal format. The data can be imported from binary or text file using the Open button.</li>
+</ul>
+</p>
+<p><img src="images/protocol.i2c.custom.png"><br>
+The Custom mode lets you write communication script with the following functions:
+<ul>
+<li><b>Clear():</b> Returns true when the bus is free. It will try to resolve the SDA hold down issue.</li>
+<li><b>Read(</b> address <b>):</b> Returns true when acknowledged, otherwise false.</li>
+<li><b>Read(</b> address, count of bytes <b>):</b> Returns the read bytes array from the specified address.</li>
+<li><b>Read(</b> address, [sub address byte1, byte2...], count of bytes <b>):</b> Returns the read bytes array from the specified deice address and sub-address using repeated start.</li>
+<li><b>Write(</b> address<b> ):</b> Returns true when acknowledged, otherwise false.</li>
+<li><b>Write(</b> address, byte1, byte2...<b>):</b></li>
+<li><b>Write(</b> address, [byte1, byte2... ] } <b>):</b> Returns zero on success, or -1 on address NotAcKnowled, or the NAK byte index.
+<li><b>DIO.:</b> Lets you set (the ones are not declared as SPI signal) and read the digital pins. See <a href="#protocol.spi.dio">SPI DIO</a></li>
+<li><b>SlaveConfig(</b>address, wr-bytes, [rd-byte1, rd-byte2,...], repeat<b>):</b> Starts automatic I2C slave with the following configuration:
+<ul>
+<li>address: 7bit format and for any use -1</li>
+<li>wr-bytes: number of written bytes to ACK, 0 will NACK address write, negative will ACK unlimited bytes</li>
+<li>[rd-byte#]: one byte or array of bytes to return on read, negative value or empty array will NAK read</li>
+<li>repeat: true to respond multiple times, false for once, to stop after the first I2C stop.</li>
+</ul></li>
+<li><b>SlaveStart(</b>address, wr-ack, rd-ack<b>):</b> Starts slave pausing for software processing after each word.</li>
+<li><b>SlaveStop():</b>Stop started or configured slave.</li>
+<li><b>SlaveStatus()</b> [0=id, 1=data, 2=ack] Returns and array with the following values:
+<ul>
+<li>id: 0 nop, 1 write, 2 read, 3 data, others error</li>
+<li>data: 7bit address or byte</li>
+<li>ack: true for ACK and false for NACK.</li>
+</ul></li>
+<li><b>SlaveReceive(</b>ack<b>):</b> Continue to receive and acknowledge or NACK.</li>
+<li><b>SlaveRespond(</b>byte, ack<b>):</b> Respond with data and acknowledge or NACK.</li>
+<li><b>Receiver():</b> Start the I2C reception.</li>
+<li><b>Receive()</b> [] : Returns an array with I2C transfers, numbers denoting: Positive values are at 9 bits which include address with read/write bit or data and acknowledge, [A6,...A0,RD|nWR,nACK|NACK] or [D7,...D0,nACK|NACK]. The -1 indicates start, -2 indicates restart, -3 indicates stop and other negative values indicates error.</li>
+<li>Besides these, you can access the I2C settings <b>SCK</b>, <b>SDA</b>, <b>Frequency</b>.<br>
+The I2C can also be controlled from the <a href="script.html#script.protocol.i2c">Script tool</a>.</li>
+</ul>
+Under the examples menu, you can find scripts for some Pmods/ICs.
+</p>
+<p><img src="images/protocol.i2c.sensor.png"><br>
+The Sensor mode lets you write communication script, which will be executed at precise timing with the following functions:
+<ul>
+<li><b>initialize():</b> Function called at the beginning of script execution. It is useful to initialize the device and storage files.
+<li><b>loop():</b> Function called for specified number of <b>Iterations</b> and at specified <b>Rate</b>. It is useful to collect, decode, and store sensor data. Use only static data transfer calls!
+<li><b>finish():</b> Function called at the end of script execution. It is useful to send terminate commands to the device, summarize measurements, etc.
+</ul>
+When the Sensor is executed, first the loop function is called to build the transmission bit sequence without performing it on the device. The bit sequence length is limited by the device Pattern or Logic buffer size. After the initialize function, the loop transmission sequence is performed for the given number of iterations, then the loop function is called to decode the received data, and finally the finish function is called.</p>
+<p>&nbsp;</p>
+
+<h2><a name="protocol.ca" id="protocol.can"></a>
+4. CAN</h2>
+<p><img src="images/protocol.can.png"></p>
+<p>The CAN settings contain the following:
+<ul>
+<li><b>TX</b>/<b>RX:</b> selects the digital signal used to transmit and to receive data.</li>
+<li><b>Polarity:</b> selects between low and high (inverted) signal polarity.</li>
+<li><b>Rate:</b> specifies the bus frequency.</li>
+</ul>
+</p>
+<p>The TX filed contains the following:
+<ul>
+<li><b>Execute:</b> executes a TX frame with the configured options.</li>
+<li><b>BI:</b> specifies the Base Identifier.</li>
+<li><b>IDE:</b> selects Identifier Extension Flag.</li>
+<li><b>IE:</b> specifies Identifier Extension.</li>
+<li><b>RTR:</b> selects data frame or remote request frame.</li>
+<li><b>FD-EDL:</b> selects Extended Data Length.</li>
+<li><b>BRS:</b> selects Burst Rate Switch flag.</li>
+<li><b>ESI:</b> selects Error State Indicator flag.</li>
+<li><b>DLC:</b> specifies the number of data bytes for Remote transmission request, for data frame it is disabled.</li>
+<li><b>Sampling:</b> adjusts the BRS length as nominal bit X sampling position + data bit length / 2.</li>
+<li><b>Data:</b> specifies the data to send in binary, decimal, or hexadecimal format.</li>
+</ul>
+</p>
+<p>The RX field contains the enable button to receive data on the selected line. Higher Bit Rate Switch options are not supported by the RX. The data can be saved to text file using the Save or Append buttons.</p>
+<p>&nbsp;</p>
+
+<h2><a name="protocol.cec" id="protocol.cec"></a>
+5. CEC</h2>
+<p><img src="images/protocol.cec.png"></p>
+<p>The HDMI CEC settings contain the following:
+<ul>
+<li><b>IO:</b> selects the digital signal used to transmit and to receive data.</li>
+<li><b>Polarity:</b> selects between low and high (inverted) signal polarity.</li>
+</ul>
+</p>
+<p>The TX filed contains the following:
+<ul>
+<li><b>Send:</b> sends a TX frame with the configured options.</li>
+<li><b>Src:</b> specifies the source.</li>
+<li><b>Dst:</b> specifies the destination.</li>
+<li><b>Opcode:</b> specifies the opcode.</li>
+<li><b>Data:</b> specifies the data to send in binary, decimal, or hexadecimal format.</li>
+</ul>
+</p>
+<p>The RX field contains the enable button to receive data on the selected line. The optional filtering can be selected for source, destination and opcode. The data can be saved to text file using the Save or Append buttons.</p>
+<p>The TX Send start length is 4.5ms with 3.5ms low, the bit length is 2.5ms with 0.5ms low for bit 0 and 1.5ms for 1.<br>
+The RX Spy sampling is at 1.05ms after the falling edge and minimum 3ms low pulse for start.</p>
+<p>The RX log displays the following:
+<ul> 
+<li><b>Src:</b> Source in hexadecimal value.</li>
+<li><b>Dst:</b> Destination in hexadecimal value.</li>
+<li><b>Op:</b> Opcode in hexadecimal value.</li>
+<li><b>Data:</b> Data bytes in hexadecimal value.</li>
+<li><b>EOM</b> End of message bit if it is 1.</li>
+<li><b>NAK</b> Not acknowledged if the acknowledge bit is 1.</li>
+<li><b>REJ</b> Reject if the acknowledge bit is 0 for broadcast message.</li>
+</ul></p>
+<p>&nbsp;</p>
+
+<h2><a name="protocol.jtag" id="protocol.jtag"></a>
+6. JTAG</h2>
+<p><img src="images/protocol.jtag.png"></p>
+<p>The JTAG settings contain the following:
+<li><b>TMS:</b> the test mode select signal.</li>
+<li><b>TCK:</b> the test clock signal.</li>
+<li><b>TDI:</b> the test data in signal.</li>
+<li><b>TDO:</b> the test data out signal.<br>
+Gear menu:
+<li><b>IR First:</b> the instruction register bit order between least and most signification bit first</li>
+<li><b>IR Bits:</b> the IR word size in number of bits.</li>
+<li><b>DR First:</b> the data register bit order between least and most signification bit first, and the word size in number of bits.</li>
+<li><b>DR Bits:</b> the DR word size in number of bits.</li>
+</li>
+</li>
+
+</p>
+<p>The Spy field contains the enable button to receive data on the selected line. The data format can be selected between: binary, decimal and hexadecimal. The show of TDI and/or TDO data can be selected. The data can be saved to text file using the Save or Append buttons.</p>
+<p>The log displays the following TAP controller states: Test-Logic-Reset, Run-Test/Idle, Select-DR-Scan, Select-IR-Scan, Capture-DR, Capture-IR, Shift-DR, Shift-IR, Exit1-DR, Exit1-IR, Pause-DR, Pause-IR, Exit2-DR, Exit2-IR, Update-DR, Update-IR. The TDI/TDO data and the number of bits if this is not equal to the specified IR/DR Bits value.</p>
+<p>&nbsp;</p>
+
+<h2><a name="protocol.swd" id="protocol.swd"></a>
+7. SWD</h2>
+<p>The Serial Wire Debug settings contain the following:
+<li><b>SWDCK:</b> the clock signal.</li>
+<li><b>SWDIO:</b> the data in signal.</li>
+<li><b>Rate:</b> specifies the speed or bits per second.</li>
+Gear menu:
+<li><b>Format:</b> selects the data representation between Binary, Decimal, Hexadecimal.</li>
+<li><b>Turn:</b> specifies the turnaround cycles, default 1.</li>
+<li><b>Trail:</b> specifies the trailing cycles, default 0.</li>
+<li><b>Resets:</b> specifies the reset cycles, default 52.</li>
+<li><b>Rst Trail:</b> specifies the trailing cycles, default 16.</li>
+<li><b>SWDIO Idle:</b> idle level for IO, default Z.</li>
+<li><b>Park Drive:</b> when checked Park bit will be driven otherwise it will wait for pullup.</li>
+<li><b>Glitch Filter:</b> check to filter possible signal rining.</li>
+<li><b>Continue on NAK:</b> continue bit sequence interpretation even on not acknowledge.</li>
+</li>
+</li>
+
+</p>
+<p><img src="images/protocol.swd.spy.png"></p>
+<p>The Spy mode lets you decode SWD communication.</p>
+
+<p><img src="images/protocol.swd.master.png"></p>
+<p>The Master mode lets you create simple transmissions and contains the following options:
+<ul>
+<li><b>Reset:</b> performs a reset.</li>
+<li><b>Execute:</b> performs the following transfer.</li>
+<li><b>APnDP:</b> selects between Access and Debug Port.</li>
+<li><b>RnW:</b> selects between Read and Write operation.</li>
+<li><b>A32:</b> specifies address bits 3:2.</li>
+<li><b>Data:</b> specifies the data for write operation.</li>
+<li><b>Retry:</b> specifies how many times to retry on WAIT.</li>
+</ul>
+</p>
+<p><img src="images/protocol.swd.custom.png"><br>
+The Custom mode lets you write communication script with the following functions:
+<ul>
+<li><b>Reset(count = default, trail = default):</b> Reset command. Return true on success, otherwise returns false.
+<li><b>Read(</b> 1 AP or 0 DP, Adr3:2 0-1-2-3, retry = 0<b>):</b> Read command. Returns the array [acknowledge, data, 0 parity] or negative value on error.
+<li><b>Write(</b> 1 AP or 0 DP, Adr3:2, data, retry = 0} <b>):</b> Write command. Returns acknowledge or negative value on error.
+</ul>
+</p>
+
+<p>&nbsp;</p>
+
+<h2><a name="protocol.avr" id="protocol.avr"></a>
+8. AVR</h2>
+<p><img src="images/protocol.avr.png"></p>
+<p>The AVR interface lets you program AVR MCUs.<br>
+In order to program and MCU specify the used DIO signals, press <i>Auto Rate</i>, <i>Signature Read</i> and <i> Identify Chip</i>. Select the firmware image you want to program and press <i>Write to Flash</i>.</p>
+<ul>
+<li><b>Reset:</b> specifies the reset signal.</li>
+<li><b>Clock:</b> specifies the SCL/clock signal.</li>
+<li><b>Mosi:</b> specifies the MOSI signal.</li>
+<li><b>Miso:</b> specifies the MISO signal.</li>
+<li><b>Rate:</b> specifies the clock signal frequency.</li>
+<li><b>Auto Rate:</b> identifies the maximum frequency at which it can enter programming mode.</li>
+<li><b>Signature:</b> contains the signature ID of the device.</li>
+<li><b>Read:</b> reads the signature of the device.</li>
+<li><b>Chip:</b> selecting adjusts the Flash/EEPROM size and pages, the fuse, lock and calibration bit size.</li>
+<li><b>Identify Chip:</b> selects the Chip based on the Signature.</li>
+<li><b>Chip Erase:</b> performs chip erase operation Flash and EEPROM (depends on fuse setting).</li>
+<li>Gear menu:
+<ul>
+<li><b>Fuse Low/High/Extended:</b> enables the read/write on fuse bytes.</li>
+<li><b>Lock bits:</b> enables the read/write on lock byte.</li>
+<li><b>Calib. Bytes:</b> specifies the number of calibration bytes.</li>
+</ul>
+</li>
+</ul>
+</p>
+<p>The Flash Size and Page Size are adjusted based on Chip selection, but it can be entered manually for unlisted MCUs. These are important for writing/programming. You can find option to perform Erase before write and Verify after programming. The supported file types for Flash read and write are Intel HEX format and binary files. The programming is performed in page access mode, when <i>page size</i> is larger than one. The file data pages containing only hFF bytes are skipped.</p>
+<p>The EEPROM Size and Page Size are also adjusted on Chip selection. You can find option to Verify after programming. The EEPROM read and write operation supports binary files. The programming is performed in page access mode, when <i>pages size</i> is larger than one. The bytes wrapped due to start address and/or file size are programmed byte by byte.</p>
+<p>The Fuse, Lock and Calibration bytes are enabled according the Chip selection or it can be selected under the <i>Gear menu</i>, under the Chip Erase button.</p>
+
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+</body>
+</html>

@@ -1,0 +1,70 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<meta content="text/html; charset=ISO-8859-1" http-equiv="content-type">
+<title>
+Power Supplies - DPS3340
+</title>
+<link rel="stylesheet" href="style.css" type="text/css" media="all" /> 
+</head>
+<body>
+<h1><a name="supplies9.supplies9" id="supplies9.supplies9"></a>
+Discovery Power Supply &ndash; DPS3340</h1>
+<p>&nbsp;</p>
+<p>This instrument has two main areas: the control area and the plot window.</p>
+<p>The control area contains power supplies with adjustable voltage and current.</p>
+<p><img src="images/supplies9.png"></p>
+<p>See <a href="main.html#main.menus">Menu</a> in Common Interfaces.<br>
+
+<p>The control area lets you adjust the settings for the various voltmeters and power supplies.</p>
+
+<ul>
+<li><b>Master Enable:</b> the master ON/OFF switch for the power supplies and reference voltages.</li>
+<li><b>Tracking 2-3:</b> when checked the voltage and current settings for the -15V and +15V supplies will be identical.</li>
+<li><b>On/Off:</b> enable switches for each supply.</li>
+<li><b>Voltage and current</b> fields: let you adjust the values for the power supplies by either selecting a value from combo box, or typing it in. Next to the adjustment fields, the voltage/current reading is shown.</li>
+<li>The gear dropdown contains the following:<br>
+<ul>
+<li><b>Protection:</b> lets you select between: constant current, stop the channel or the master switch when the set current limit is reached. When tracking is enabled the channel pair will be stopped.</li>
+<li><b>Fuse:</b> lets you adjust the fuse timeout.</li>
+<li><b>Prime:</b> lets you adjust initial or settle time after adjustment.</li>
+</ul>
+</li>
+</ul>
+
+<p>The history plot has the following components:</p>
+<ul>
+<li><b>Add:</b> opens a window. Select an item from the list and press the Add button (or double-click) to add it to the plot list. Using the function field, a custom math channel can be created.</li>
+<li><b>Remove</b> the selected item(s) from the list.</li>
+<li><b>Edit</b> the currently selected list item.</li>
+<li><b>Show:</b> enables or disables columns displaying the minimum and maximum levels from the history plot.</li>
+<li><b>History:</b> specifies the time span for the plot. Under the history options, update rate and the number of samples can be specified.</li>
+<li><b>Clear:</b> clear the history plot.</li>
+</ul>
+<p>For each channel, the color and scaling option can be specified: auto scaling based on the extremes from the plot history or manually specified offset and range.</p>
+<p>See <a href="main.html#main.script">Script</a> in Common interfaces. The local variables are the elementary logger channels, which vary depending on the device.</p>
+<p>Example functions:
+<ul>
+<li><b>Vmtr2 - Vmtr1</b></li>
+<li><b>4.7 / (Vmtr1 + VccVoltage / 2)</b></li>
+</ul>
+</p>
+
+<p>For more information see <a href="start9.html">DPS3340</a>.<p>
+
+<p>&nbsp;</p>
+
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+</body>
+</html>
