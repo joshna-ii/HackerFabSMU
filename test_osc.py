@@ -15,15 +15,14 @@ device_data = device.open() #TODO open again to get second device
 scope.open(device_data, sampling_frequency=10e5)
 
 # generate a 10KHz sine signal with 2V amplitude on channel 1
-for i in range(0.8, 5, 0.2):
+for i in [1, 2, 3, 4, 5]:
     wavegen.generate(device_data, channel=2, function=wavegen.function.dc, offset=i, frequency=10e2, amplitude=1) #generate dc signal to gate voltage at voltage i
-    for j in range(0, 5, 0.1):
-        wavegen.generate(device_data, channel=1, function=wavegen.function.dc, offset=j, frequency=10e2, amplitude=2.5)
-        [resistor_voltages, mosfet_voltages] = scope.record2(device_data) #functions outputs [resistor_voltages, mosfet_voltages]
-        mosfet_currents = []
-        for v in resistor_voltages:
-            mosfet_currents.append(v/resistance)
-        plt.plot(mosfet_voltages, mosfet_currents)
+    wavegen.generate(device_data, channel=1, function=wavegen.function.sine, offset=2.5, frequency=10e2, amplitude=2.5)
+    [resistor_voltages, mosfet_voltages] = scope.record2(device_data) #functions outputs [resistor_voltages, mosfet_voltages]
+    mosfet_currents = []
+    for v in resistor_voltages:
+        mosfet_currents.append(v/resistance)
+    plt.plot(mosfet_voltages, mosfet_currents)
 
 n = len(mosfet_voltages)
 
